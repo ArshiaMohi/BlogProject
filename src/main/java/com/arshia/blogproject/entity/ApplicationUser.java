@@ -33,6 +33,7 @@ public class ApplicationUser {
 
     private String fullName;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @CreationTimestamp

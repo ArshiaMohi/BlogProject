@@ -37,6 +37,7 @@ public class Post {
 
     private byte[] image;
 
+    @Enumerated(EnumType.STRING)
     private Status status = Status.DRAFT;
 
     private Integer views = 0;
