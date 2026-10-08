@@ -31,6 +31,10 @@ public class ApplicationUser {
     @NotBlank
     private String email;
 
+    @NotBlank
+    private String password;
+
+    @NotBlank
     private String fullName;
 
     @Enumerated(EnumType.STRING)
