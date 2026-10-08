@@ -27,7 +27,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         return saved;
     }
 
-    private ApplicationUserResponseDto convertUserToResponse(ApplicationUser applicationUser){
+    private ApplicationUserResponseDto convertUserToResponse(ApplicationUser applicationUser) {
         ApplicationUserResponseDto applicationUserResponseDto = new ApplicationUserResponseDto();
 
         applicationUserResponseDto.setId(applicationUser.getId());
@@ -43,8 +43,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     @Override
     public ApplicationUserResponseDto save(ApplicationUserRegisterDto applicationUserRegisterDto) {
         ApplicationUser applicationUser = convertRegisterToUser(applicationUserRegisterDto);
-        ApplicationUser saved = applicationUserRepository.save(applicationUser);
-        return convertUserToResponse(saved);
+        return convertUserToResponse(applicationUser);
     }
 
     @Override
