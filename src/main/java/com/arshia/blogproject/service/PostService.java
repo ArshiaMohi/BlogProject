@@ -13,5 +13,5 @@ public interface PostService {
 
     List<PostResponseDto> findAll();
 
-    void delete(int id);
+    void deleteById(int id);
 }

@@ -111,7 +111,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
         postRepository.deleteById(id);
     }
 }
