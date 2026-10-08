@@ -22,7 +22,7 @@ public class CommentResponseDto {
     private Boolean approved;
 
     private int postId;
-    private String postName;
+    private String postTitle;
 
     private LocalDateTime createdAt;
 }

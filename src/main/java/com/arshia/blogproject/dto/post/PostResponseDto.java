@@ -1,5 +1,6 @@
 package com.arshia.blogproject.dto.post;
 
+import com.arshia.blogproject.dto.comment.CommentResponseDto;
 import com.arshia.blogproject.entity.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,9 @@ public class PostResponseDto {
     private String categoryName;
 
     private List<Integer> tagIds;
+    private List<String> tagNames;
+
+    private List<CommentResponseDto> comments;
 
     private LocalDateTime createdAt;
 
