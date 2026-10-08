@@ -12,35 +12,42 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Getter@Setter
 @AllArgsConstructor
-@NoArgsConstructor()
-@SQLDelete(sql = "UPDATE application_user SET deleted = true WHERE id = ?")
+@NoArgsConstructor
+@SQLDelete(sql = "UPDATE post SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted = false")
-public class ApplicationUser {
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotBlank
-    private String username;
+    private String title;
 
-    @NotBlank
-    private String email;
+    private String slug;
 
-    private String fullName;
+    private String excerpt;
 
-    private Role role;
+    private String content;
+
+    private byte[] image;
+
+    private Status status = Status.DRAFT;
+
+    private Integer views = 0;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    private Boolean active = true;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     private Boolean deleted = false;
+
 }
