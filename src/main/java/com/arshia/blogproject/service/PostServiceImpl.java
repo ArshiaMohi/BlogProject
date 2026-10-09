@@ -1,15 +1,10 @@
 package com.arshia.blogproject.service;
 
+import com.arshia.blogproject.dto.comment.CommentResponseDto;
 import com.arshia.blogproject.dto.post.PostCreateDto;
 import com.arshia.blogproject.dto.post.PostResponseDto;
-import com.arshia.blogproject.entity.ApplicationUser;
-import com.arshia.blogproject.entity.Category;
-import com.arshia.blogproject.entity.Post;
-import com.arshia.blogproject.entity.Tag;
-import com.arshia.blogproject.repository.ApplicationUserRepository;
-import com.arshia.blogproject.repository.CategoryRepository;
-import com.arshia.blogproject.repository.PostRepository;
-import com.arshia.blogproject.repository.TagRepository;
+import com.arshia.blogproject.entity.*;
+import com.arshia.blogproject.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +18,22 @@ public class PostServiceImpl implements PostService {
     private final ApplicationUserRepository applicationUserRepository;
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
+
+    private CommentResponseDto convertCommentToResponse(Comment comment) {
+
+        CommentResponseDto dto = new CommentResponseDto();
+
+        dto.setId(comment.getId());
+        dto.setName(comment.getName());
+        dto.setContent(comment.getContent());
+        dto.setApproved(comment.getApproved());
+        dto.setPostId(comment.getPost().getId());
+        dto.setPostTitle(comment.getPost().getTitle());
+        dto.setCreatedAt(comment.getCreatedAt());
+
+        return dto;
+    }
 
     private Post convertCreateToPost(PostCreateDto postCreateDto) {
 
@@ -41,7 +52,9 @@ public class PostServiceImpl implements PostService {
         Category category = categoryRepository.findById(postCreateDto.getCategoryId())
                 .orElseThrow();
 
-        List<Tag> tags = tagRepository.findAllById(postCreateDto.getTagIds());
+        List<Tag> tags = postCreateDto.getTagIds() == null
+                ? List.of()
+                : tagRepository.findAllById(postCreateDto.getTagIds());
 
         post.setAuthor(author);
         post.setCategory(category);
@@ -70,6 +83,13 @@ public class PostServiceImpl implements PostService {
         dto.setCategoryId(post.getCategory().getId());
         dto.setCategoryName(post.getCategory().getName());
 
+        List<CommentResponseDto> comments =
+                commentRepository.findByPost_IdAndApprovedTrue(post.getId())
+                                .stream()
+                                        .map(this::convertCommentToResponse)
+                                                .toList();
+        dto.setComments(comments);
+
         dto.setTagIds(
                 post.getTags()
                         .stream()
@@ -83,6 +103,8 @@ public class PostServiceImpl implements PostService {
                         .map(Tag::getName)
                         .toList()
         );
+
+
 
         dto.setCreatedAt(post.getCreatedAt());
         dto.setUpdatedAt(post.getUpdatedAt());
@@ -103,11 +125,61 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public PostResponseDto findPublishedById(int id) {
+        Post post = postRepository.findByIdAndStatus(id, Status.PUBLISHED).orElseThrow();
+        return convertPostToResponse(post);
+    }
+
+    @Override
     public List<PostResponseDto> findAll() {
         return postRepository.findAll()
                 .stream()
                 .map(this::convertPostToResponse)
                 .toList();
+    }
+
+    @Override
+    public List<PostResponseDto> findAllPublished() {
+        return postRepository.findByStatus(Status.PUBLISHED)
+                .stream()
+                .map(this::convertPostToResponse)
+                .toList();
+    }
+
+    @Override
+    public List<PostResponseDto> searchPublishedByTitle(String title) {
+        return postRepository.findByTitleContainingIgnoreCaseAndStatus(title, Status.PUBLISHED)
+                .stream()
+                .map(this::convertPostToResponse)
+                .toList();
+    }
+
+    @Override
+    public PostResponseDto publish(int id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow();
+        post.setStatus(Status.PUBLISHED);
+        Post savedPost = postRepository.save(post);
+        return convertPostToResponse(savedPost);
+    }
+
+    @Override
+    public PostResponseDto unpublish(int id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow();
+        post.setStatus(Status.DRAFT);
+        Post savedPost = postRepository.save(post);
+        return convertPostToResponse(savedPost);
+    }
+
+    @Override
+    public PostResponseDto incrementViews(int id) {
+        Post post = postRepository.findByIdAndStatus(id, Status.PUBLISHED)
+                .orElseThrow();
+        int currentViews = post.getViews() == null ? 0 : post.getViews();
+        post.setViews(currentViews + 1);
+        Post savedPost = postRepository.save(post);
+        return convertPostToResponse(savedPost);
     }
 
     @Override

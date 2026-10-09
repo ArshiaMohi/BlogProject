@@ -25,14 +25,13 @@ public class CommentServiceImpl implements CommentService {
         comment.setName(commentCreateDto.getName());
         comment.setEmail(commentCreateDto.getEmail());
         comment.setContent(commentCreateDto.getContent());
-        comment.setApproved(false);
 
         Post post = postRepository.findById(commentCreateDto.getPostId())
                 .orElseThrow();
         comment.setPost(post);
 
         Comment savedComment = commentRepository.save(comment);
-        return comment;
+        return savedComment;
     }
 
     private CommentResponseDto convertCommentToResponse(Comment comment) {
@@ -70,6 +69,30 @@ public class CommentServiceImpl implements CommentService {
                 .stream()
                 .map(this::convertCommentToResponse)
                 .toList();
+    }
+
+    @Override
+    public List<CommentResponseDto> findApprovedByPostId(int postId) {
+        return commentRepository.findByPost_IdAndApprovedTrue(postId)
+                .stream()
+                .map(this::convertCommentToResponse)
+                .toList();
+    }
+
+    @Override
+    public CommentResponseDto approve(int id) {
+        Comment comment = commentRepository.findById(id).orElseThrow();
+        comment.setApproved(true);
+        Comment saved = commentRepository.save(comment);
+        return convertCommentToResponse(saved);
+    }
+
+    @Override
+    public CommentResponseDto unapprove(int id) {
+        Comment comment = commentRepository.findById(id).orElseThrow();
+        comment.setApproved(false);
+        Comment saved = commentRepository.save(comment);
+        return convertCommentToResponse(saved);
     }
 
     @Override

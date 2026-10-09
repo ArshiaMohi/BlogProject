@@ -11,7 +11,19 @@ public interface PostService {
 
     PostResponseDto findById(int id);
 
+    PostResponseDto findPublishedById(int id);
+
     List<PostResponseDto> findAll();
+
+    List<PostResponseDto> findAllPublished();
+
+    List<PostResponseDto> searchPublishedByTitle(String title);
+
+    PostResponseDto publish(int id);
+
+    PostResponseDto unpublish(int id);
+
+    PostResponseDto incrementViews(int id);
 
     void deleteById(int id);
 }

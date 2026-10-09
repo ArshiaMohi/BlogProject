@@ -3,6 +3,7 @@ package com.arshia.blogproject.service;
 import com.arshia.blogproject.dto.applicationUser.ApplicationUserRegisterDto;
 import com.arshia.blogproject.dto.applicationUser.ApplicationUserResponseDto;
 import com.arshia.blogproject.entity.ApplicationUser;
+import com.arshia.blogproject.entity.Role;
 import com.arshia.blogproject.repository.ApplicationUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
         applicationUser.setEmail(applicationUserRegisterDto.getEmail());
         applicationUser.setPassword(applicationUserRegisterDto.getPassword());
         applicationUser.setFullName(applicationUserRegisterDto.getFullName());
+        applicationUser.setRole(Role.ROLE_USER);
 
         ApplicationUser saved = applicationUserRepository.save(applicationUser);
         return saved;

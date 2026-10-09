@@ -13,5 +13,11 @@ public interface CommentService {
 
     List<CommentResponseDto> findAll();
 
+    List<CommentResponseDto> findApprovedByPostId(int postId);
+
+    CommentResponseDto approve(int id);
+
+    CommentResponseDto unapprove(int id);
+
     void deleteById(int id);
 }
