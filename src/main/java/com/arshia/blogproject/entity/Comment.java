@@ -26,7 +26,7 @@ public class Comment {
 
     private String name;
     private String email;
-
+    private String content;
     private Boolean approved = false;
 
     @CreationTimestamp

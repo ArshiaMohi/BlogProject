@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CommentCreateDto {
 
-    private int name;
+    private String name;
 
     private String email;
 
