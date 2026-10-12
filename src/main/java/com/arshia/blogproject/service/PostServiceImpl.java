@@ -2,6 +2,7 @@ package com.arshia.blogproject.service;
 
 import com.arshia.blogproject.dto.comment.CommentResponseDto;
 import com.arshia.blogproject.dto.post.PostCreateDto;
+import com.arshia.blogproject.dto.post.PostImageDto;
 import com.arshia.blogproject.dto.post.PostResponseDto;
 import com.arshia.blogproject.entity.*;
 import com.arshia.blogproject.repository.*;
@@ -44,6 +45,8 @@ public class PostServiceImpl implements PostService {
         post.setExcerpt(postCreateDto.getExcerpt());
         post.setContent(postCreateDto.getContent());
         post.setImage(postCreateDto.getImage());
+        post.setImageContentType(postCreateDto.getImageContentType());
+        post.setImageName(postCreateDto.getImageName());
         post.setStatus(postCreateDto.getStatus());
 
         ApplicationUser author = applicationUserRepository
@@ -170,6 +173,23 @@ public class PostServiceImpl implements PostService {
         post.setStatus(Status.DRAFT);
         Post savedPost = postRepository.save(post);
         return convertPostToResponse(savedPost);
+    }
+
+    @Override
+    public PostImageDto findImageByPostId(int id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Post not found"));
+
+        if (post.getImage() == null || post.getImage().length == 0) {
+            throw new RuntimeException("Post has no image");
+        }
+
+        return new PostImageDto(
+                post.getImage(),
+                post.getImageContentType(),
+                post.getImageName()
+        );
     }
 
     @Override

@@ -37,6 +37,10 @@ public class Post {
 
     private byte[] image;
 
+    private String imageContentType;
+
+    private String imageName;
+    
     @Enumerated(EnumType.STRING)
     private Status status = Status.DRAFT;
 

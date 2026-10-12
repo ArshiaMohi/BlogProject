@@ -24,6 +24,10 @@ public class PostCreateDto {
 
     private byte[] image;
 
+    private String imageContentType;
+
+    private String imageName;
+
     private Status status;
 
     private int authorId;
