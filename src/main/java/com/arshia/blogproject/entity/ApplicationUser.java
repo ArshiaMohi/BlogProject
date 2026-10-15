@@ -25,16 +25,16 @@ public class ApplicationUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank
+    @NotBlank(message = "Username can not be null")
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "Email can not be null")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password can not be null")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "FullName can not be null")
     private String fullName;
 
     @Enumerated(EnumType.STRING)

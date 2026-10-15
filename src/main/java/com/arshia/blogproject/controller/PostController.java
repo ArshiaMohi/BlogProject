@@ -36,7 +36,7 @@ public class PostController {
         return postService.save(postCreateDto);
     }
 
-    @GetMapping("/{id}/image")
+    @GetMapping("/image/{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable int id) {
         PostImageDto image = postService.findImageByPostId(id);
 

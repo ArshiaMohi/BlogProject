@@ -26,13 +26,16 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank
+    @NotBlank(message = "Title can not be null")
     private String title;
 
+    @NotBlank(message = "Slug can not be null")
     private String slug;
 
+    @NotBlank(message = "Excerpt can not be null")
     private String excerpt;
 
+    @NotBlank(message = "Content can not be null")
     private String content;
 
     private byte[] image;
