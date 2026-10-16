@@ -12,4 +12,6 @@ import lombok.Setter;
 public class TagCreateDto {
 
     private String name;
+
+    private String slug;
 }

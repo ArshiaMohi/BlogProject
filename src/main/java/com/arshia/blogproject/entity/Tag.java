@@ -27,6 +27,9 @@ public class Tag {
     @NotBlank(message = "Name can not be null")
     private String name;
 
+    @NotBlank(message = "Slug can not be null")
+    private String slug;
+
     private Boolean deleted = false;
 
     @ManyToMany(mappedBy = "tags")

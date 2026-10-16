@@ -20,6 +20,11 @@ public class CategoryController {
         return categoryService.save(categoryCreateDto);
     }
 
+    @PutMapping("/uppdate/{id}")
+    public CategoryResponseDto update(@PathVariable int id, CategoryCreateDto categoryCreateDto) {
+        return categoryService.update(id, categoryCreateDto);
+    }
+
     @GetMapping
     public List<CategoryResponseDto> findAll() {
         return categoryService.findAll();

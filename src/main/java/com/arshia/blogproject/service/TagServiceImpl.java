@@ -20,8 +20,7 @@ public class TagServiceImpl implements TagService {
 
         tag.setName(tagCreateDto.getName());
 
-        Tag savedTag = tagRepository.save(tag);
-        return savedTag;
+        return tag;
     }
 
     private TagResponseDto convertTagToResponse(Tag tag) {
@@ -37,7 +36,16 @@ public class TagServiceImpl implements TagService {
     @Override
     public TagResponseDto save(TagCreateDto tagCreateDto) {
         Tag tag = convertCreateToTag(tagCreateDto);
-        return convertTagToResponse(tag);
+        Tag saved = tagRepository.save(tag);
+        return convertTagToResponse(saved);
+    }
+
+    @Override
+    public TagResponseDto update(int id, TagCreateDto tagCreateDto) {
+        Tag tag = convertCreateToTag(tagCreateDto);
+        tag.setId(id);
+        Tag saved = tagRepository.save(tag);
+        return convertTagToResponse(saved);
     }
 
     @Override

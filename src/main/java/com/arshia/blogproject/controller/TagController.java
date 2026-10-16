@@ -20,6 +20,11 @@ public class TagController {
         return tagService.save(tagCreateDto);
     }
 
+    @PutMapping("/update/{id}")
+    public TagResponseDto update(@PathVariable int id, @RequestBody TagCreateDto tagCreateDto) {
+        return tagService.update(id, tagCreateDto);
+    }
+
     @GetMapping
     public List<TagResponseDto> findAll() {
         return tagService.findAll();

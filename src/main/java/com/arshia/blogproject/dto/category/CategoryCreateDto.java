@@ -14,4 +14,6 @@ public class CategoryCreateDto {
     private String name;
 
     private String description;
+
+    private String slug;
 }

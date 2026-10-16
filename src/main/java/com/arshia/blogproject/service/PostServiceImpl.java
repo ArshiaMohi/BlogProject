@@ -9,6 +9,7 @@ import com.arshia.blogproject.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -63,8 +64,7 @@ public class PostServiceImpl implements PostService {
         post.setCategory(category);
         post.setTags(tags);
 
-        Post saved = postRepository.save(post);
-        return saved;
+        return post;
     }
 
     private PostResponseDto convertPostToResponse(Post post) {
@@ -88,9 +88,9 @@ public class PostServiceImpl implements PostService {
 
         List<CommentResponseDto> comments =
                 commentRepository.findByPost_IdAndApprovedTrue(post.getId())
-                                .stream()
-                                        .map(this::convertCommentToResponse)
-                                                .toList();
+                        .stream()
+                        .map(this::convertCommentToResponse)
+                        .toList();
         dto.setComments(comments);
 
         dto.setTagIds(
@@ -108,7 +108,6 @@ public class PostServiceImpl implements PostService {
         );
 
 
-
         dto.setCreatedAt(post.getCreatedAt());
         dto.setUpdatedAt(post.getUpdatedAt());
 
@@ -118,7 +117,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto save(PostCreateDto postCreateDto) {
         Post post = convertCreateToPost(postCreateDto);
-        return convertPostToResponse(post);
+        Post saved = postRepository.save(post);
+        return convertPostToResponse(saved);
+    }
+
+    @Override
+    public PostResponseDto update(int id, PostCreateDto postCreateDto) {
+        Post post = convertCreateToPost(postCreateDto);
+        post.setId(id);
+        Post saved = postRepository.save(post);
+        return convertPostToResponse(saved);
     }
 
     @Override
@@ -162,6 +170,7 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow();
         post.setStatus(Status.PUBLISHED);
+        post.setPublishedAt(LocalDateTime.now());
         Post savedPost = postRepository.save(post);
         return convertPostToResponse(savedPost);
     }
@@ -171,6 +180,7 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow();
         post.setStatus(Status.DRAFT);
+        post.setPublishedAt(null);
         Post savedPost = postRepository.save(post);
         return convertPostToResponse(savedPost);
     }

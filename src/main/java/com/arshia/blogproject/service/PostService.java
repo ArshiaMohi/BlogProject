@@ -10,6 +10,8 @@ public interface PostService {
 
     PostResponseDto save(PostCreateDto postCreateDto);
 
+    PostResponseDto update(int id, PostCreateDto postCreateDto);
+
     PostResponseDto findById(int id);
 
     PostResponseDto findPublishedById(int id);

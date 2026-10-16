@@ -9,6 +9,8 @@ public interface CategoryService {
 
     CategoryResponseDto save(CategoryCreateDto categoryCreateDto);
 
+    CategoryResponseDto update(int id, CategoryCreateDto categoryCreateDto);
+
     CategoryResponseDto findById(int id);
 
     List<CategoryResponseDto> findAll();

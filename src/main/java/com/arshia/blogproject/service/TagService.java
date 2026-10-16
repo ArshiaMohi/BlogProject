@@ -9,6 +9,8 @@ public interface TagService {
 
     TagResponseDto save(TagCreateDto tagCreateDto);
 
+    TagResponseDto update(int id, TagCreateDto tagCreateDto);
+
     TagResponseDto findById(int id);
 
     List<TagResponseDto> findAll();

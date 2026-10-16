@@ -49,6 +49,22 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
     }
 
     @Override
+    public ApplicationUserResponseDto active(int id) {
+        ApplicationUser applicationUser = applicationUserRepository.findById(id).orElseThrow();
+        applicationUser.setActive(true);
+        ApplicationUser saved = applicationUserRepository.save(applicationUser);
+        return convertUserToResponse(saved);
+    }
+
+    @Override
+    public ApplicationUserResponseDto deactivate(int id) {
+        ApplicationUser applicationUser = applicationUserRepository.findById(id).orElseThrow();
+        applicationUser.setActive(false);
+        ApplicationUser saved = applicationUserRepository.save(applicationUser);
+        return convertUserToResponse(saved);
+    }
+
+    @Override
     public ApplicationUserResponseDto findById(int id) {
         ApplicationUser applicationUser = applicationUserRepository.findById(id).orElseThrow();
         return convertUserToResponse(applicationUser);

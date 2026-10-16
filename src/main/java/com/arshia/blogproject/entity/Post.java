@@ -55,6 +55,8 @@ public class Post {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    private LocalDateTime publishedAt;
+
     private Boolean deleted = false;
 
     @ManyToOne

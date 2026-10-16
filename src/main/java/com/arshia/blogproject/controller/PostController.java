@@ -70,6 +70,22 @@ public class PostController {
         return postService.searchPublishedByTitle(title);
     }
 
+    @PutMapping("/update/{id}")
+    public PostResponseDto update(
+            @PathVariable int id,
+            @ModelAttribute PostCreateDto postCreateDto,
+            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile)
+            throws IOException {
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            postCreateDto.setImage(imageFile.getBytes());
+            postCreateDto.setImageContentType(imageFile.getContentType());
+            postCreateDto.setImageName(imageFile.getOriginalFilename());
+        }
+
+        return postService.update(id, postCreateDto);
+    }
+
     @PutMapping("/publish/{id}")
     public PostResponseDto publish(@PathVariable int id) {
         return postService.publish(id);

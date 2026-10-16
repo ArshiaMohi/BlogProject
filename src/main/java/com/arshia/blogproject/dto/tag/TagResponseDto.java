@@ -14,4 +14,6 @@ public class TagResponseDto {
     private int id;
 
     private String name;
+
+    private String slug;
 }

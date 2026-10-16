@@ -30,6 +30,16 @@ public class ApplicationUserController {
         return applicationUserService.findById(id);
     }
 
+    @PutMapping("/active/{id}")
+    public ApplicationUserResponseDto active(@PathVariable int id) {
+        return applicationUserService.active(id);
+    }
+
+    @PutMapping("/deactivate/{id}")
+    public ApplicationUserResponseDto deactivate(@PathVariable int id) {
+        return applicationUserService.deactivate(id);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
         applicationUserService.deleteById(id);

@@ -30,6 +30,9 @@ public class Category {
     @NotBlank(message = "Description can not be null")
     private String description;
 
+    @NotBlank(message = "Slug can not be null")
+    private String slug;
+
     private Boolean deleted = false;
 
     @OneToMany(mappedBy = "category")

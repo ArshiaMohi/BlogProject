@@ -9,6 +9,10 @@ public interface ApplicationUserService {
 
     ApplicationUserResponseDto save(ApplicationUserRegisterDto applicationUserRegisterDto);
 
+    ApplicationUserResponseDto active(int id);
+
+    ApplicationUserResponseDto deactivate(int id);
+
     ApplicationUserResponseDto findById(int id);
 
     List<ApplicationUserResponseDto> findAll();

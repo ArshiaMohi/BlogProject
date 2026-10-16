@@ -22,8 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(categoryCreateDto.getName());
         category.setDescription(categoryCreateDto.getDescription());
 
-        Category savedCategory = categoryRepository.save(category);
-        return savedCategory;
+        return category;
     }
 
     private CategoryResponseDto convertCategoryToResponse(Category category) {
@@ -40,7 +39,16 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto save(CategoryCreateDto categoryCreateDto) {
         Category category = convertCreateToCategory(categoryCreateDto);
-        return convertCategoryToResponse(category);
+        Category saved = categoryRepository.save(category);
+        return convertCategoryToResponse(saved);
+    }
+
+    @Override
+    public CategoryResponseDto update(int id, CategoryCreateDto categoryCreateDto) {
+        Category category = convertCreateToCategory(categoryCreateDto);
+        category.setId(id);
+        Category saved = categoryRepository.save(category);
+        return convertCategoryToResponse(saved);
     }
 
     @Override
