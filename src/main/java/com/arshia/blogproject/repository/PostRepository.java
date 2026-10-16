@@ -2,6 +2,8 @@ package com.arshia.blogproject.repository;
 
 import com.arshia.blogproject.entity.Post;
 import com.arshia.blogproject.entity.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    List<Post> findByStatus(Status status);
+    Page<Post> findByStatus(Status status, Pageable pageable);
 
     List<Post> findByTitleContainingIgnoreCaseAndStatus(String title, Status status);
 

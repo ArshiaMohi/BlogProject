@@ -7,6 +7,8 @@ import com.arshia.blogproject.dto.post.PostResponseDto;
 import com.arshia.blogproject.entity.*;
 import com.arshia.blogproject.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -79,6 +81,7 @@ public class PostServiceImpl implements PostService {
         dto.setImage(post.getImage());
         dto.setStatus(post.getStatus());
         dto.setViews(post.getViews());
+        dto.setPublishedAt(post.getPublishedAt());
 
         dto.setAuthorId(post.getAuthor().getId());
         dto.setAuthorName(post.getAuthor().getFullName());
@@ -150,11 +153,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponseDto> findAllPublished() {
-        return postRepository.findByStatus(Status.PUBLISHED)
-                .stream()
-                .map(this::convertPostToResponse)
-                .toList();
+    public Page<PostResponseDto> findAllPublished(Pageable pageable) {
+        return postRepository
+                .findByStatus(Status.PUBLISHED, pageable)
+                .map(this::convertPostToResponse);
     }
 
     @Override

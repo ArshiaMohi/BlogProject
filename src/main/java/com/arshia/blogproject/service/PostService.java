@@ -3,6 +3,8 @@ package com.arshia.blogproject.service;
 import com.arshia.blogproject.dto.post.PostCreateDto;
 import com.arshia.blogproject.dto.post.PostImageDto;
 import com.arshia.blogproject.dto.post.PostResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ public interface PostService {
 
     List<PostResponseDto> findAll();
 
-    List<PostResponseDto> findAllPublished();
+    Page<PostResponseDto> findAllPublished(Pageable pageable);
 
     List<PostResponseDto> searchPublishedByTitle(String title);
 
