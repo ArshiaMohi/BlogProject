@@ -20,8 +20,8 @@ public class CategoryController {
         return categoryService.save(categoryCreateDto);
     }
 
-    @PutMapping("/uppdate/{id}")
-    public CategoryResponseDto update(@PathVariable int id, CategoryCreateDto categoryCreateDto) {
+    @PutMapping("/update/{id}")
+    public CategoryResponseDto update(@PathVariable int id, @RequestBody CategoryCreateDto categoryCreateDto) {
         return categoryService.update(id, categoryCreateDto);
     }
 

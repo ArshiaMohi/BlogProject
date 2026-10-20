@@ -21,6 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         category.setName(categoryCreateDto.getName());
         category.setDescription(categoryCreateDto.getDescription());
+        category.setSlug(categoryCreateDto.getSlug());
 
         return category;
     }

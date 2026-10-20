@@ -19,6 +19,7 @@ public class TagServiceImpl implements TagService {
         Tag tag = new Tag();
 
         tag.setName(tagCreateDto.getName());
+        tag.setSlug(tagCreateDto.getSlug());
 
         return tag;
     }

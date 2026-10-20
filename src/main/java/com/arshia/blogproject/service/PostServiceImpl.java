@@ -126,10 +126,24 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponseDto update(int id, PostCreateDto postCreateDto) {
-        Post post = convertCreateToPost(postCreateDto);
-        post.setId(id);
-        Post saved = postRepository.save(post);
-        return convertPostToResponse(saved);
+
+        Post post = postRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Post not found: " + id));
+
+        post.setTitle(postCreateDto.getTitle());
+        post.setSlug(postCreateDto.getSlug());
+        post.setExcerpt(postCreateDto.getExcerpt());
+        post.setContent(postCreateDto.getContent());
+
+        if (postCreateDto.getImage() != null
+                && postCreateDto.getImage().length > 0) {
+            post.setImage(postCreateDto.getImage());
+        }
+
+        Post savedPost = postRepository.save(post);
+
+        return convertPostToResponse(savedPost);
     }
 
     @Override
@@ -172,7 +186,9 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow();
         post.setStatus(Status.PUBLISHED);
-        post.setPublishedAt(LocalDateTime.now());
+        if (post.getPublishedAt() == null) {
+            post.setPublishedAt(LocalDateTime.now());
+        }
         Post savedPost = postRepository.save(post);
         return convertPostToResponse(savedPost);
     }
