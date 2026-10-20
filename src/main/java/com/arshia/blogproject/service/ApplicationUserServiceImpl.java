@@ -6,6 +6,7 @@ import com.arshia.blogproject.entity.ApplicationUser;
 import com.arshia.blogproject.entity.Role;
 import com.arshia.blogproject.repository.ApplicationUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,12 +17,16 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
     private final ApplicationUserRepository applicationUserRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private ApplicationUser convertRegisterToUser(ApplicationUserRegisterDto applicationUserRegisterDto) {
         ApplicationUser applicationUser = new ApplicationUser();
 
         applicationUser.setUsername(applicationUserRegisterDto.getUsername());
         applicationUser.setEmail(applicationUserRegisterDto.getEmail());
-        applicationUser.setPassword(applicationUserRegisterDto.getPassword());
+        applicationUser.setPassword(
+                passwordEncoder.encode(applicationUserRegisterDto.getPassword())
+        );
         applicationUser.setFullName(applicationUserRegisterDto.getFullName());
         applicationUser.setRole(Role.ROLE_USER);
 
