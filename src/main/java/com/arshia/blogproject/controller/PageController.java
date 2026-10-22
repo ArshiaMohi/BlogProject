@@ -99,6 +99,11 @@ public class PageController {
 
         return "admin/content-management";
     }
+
+    @GetMapping("/admin/dashboard")
+    public String dashboard() {
+        return "admin/dashboard";
+    }
 }
 
 

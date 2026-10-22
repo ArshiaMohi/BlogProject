@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد مدیریت | NEXORA</title>
+
+    <link rel="stylesheet" th:href="@{/css/admin-dashboard.css}">
+</head>
+
+<body>
+
+<div class="dashboard-shell">
+
+    <header class="topbar">
+        <a class="brand" th:href="@{/home}">
+            <span class="brand-mark">N</span>
+            <span>NEXORA</span>
+            <span class="admin-label">ADMIN</span>
+        </a>
+
+        <a class="back-link" th:href="@{/home}">
+            <span>↗</span>
+            بازگشت به سایت
+        </a>
+    </header>
+
+    <main class="dashboard-main">
+
+        <section class="welcome-section">
+            <div>
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    پنل مدیریت
+                </div>
+
+                <h1>داشبورد <span>مدیریت</span></h1>
+
+                <p>
+                    همه‌چیز از اینجا تحت کنترله؛
+                    بخش موردنظرت رو انتخاب کن و ادامه بده.
+                </p>
+            </div>
+
+            <div class="welcome-symbol" aria-hidden="true">
+                <div class="symbol-orbit orbit-one"></div>
+                <div class="symbol-orbit orbit-two"></div>
+                <div class="symbol-core">N</div>
+            </div>
+        </section>
+
+        <section class="section-heading">
+            <div>
+                <h2>مرکز مدیریت</h2>
+                <p>برای ورود به هر بخش، روی کارت مربوطه کلیک کن.</p>
+            </div>
+            <span class="section-count">۰۴ بخش</span>
+        </section>
+
+        <section class="dashboard-grid">
+
+            <a class="dashboard-card posts-card"
+               th:href="@{/admin/posts}">
+                <div class="card-top">
+                    <span class="card-icon">✎</span>
+                    <span class="card-index">01</span>
+                </div>
+
+                <div class="card-content">
+                    <span class="card-kicker">POST CONTROL</span>
+                    <h3>مدیریت پست‌ها</h3>
+                    <p>
+                        مشاهده و مدیریت نوشته‌ها، انتشار پست‌ها
+                        و کنترل محتوای منتشرشده.
+                    </p>
+                </div>
+
+                <div class="card-bottom">
+                    <span>ورود به مدیریت پست‌ها</span>
+                    <span class="arrow">←</span>
+                </div>
+            </a>
+
+            <a class="dashboard-card content-card"
+               th:href="@{/admin/content}">
+                <div class="card-top">
+                    <span class="card-icon">◇</span>
+                    <span class="card-index">02</span>
+                </div>
+
+                <div class="card-content">
+                    <span class="card-kicker">CONTENT CONTROL</span>
+                    <h3>مدیریت محتوا</h3>
+                    <p>
+                        مدیریت دسته‌بندی‌ها و تگ‌ها
+                        در یک صفحه‌ی یکپارچه.
+                    </p>
+                </div>
+
+                <div class="card-bottom">
+                    <span>ورود به مدیریت محتوا</span>
+                    <span class="arrow">←</span>
+                </div>
+            </a>
+
+            <a class="dashboard-card users-card"
+               th:href="@{/admin/users}">
+                <div class="card-top">
+                    <span class="card-icon">♙</span>
+                    <span class="card-index">03</span>
+                </div>
+
+                <div class="card-content">
+                    <span class="card-kicker">USER CONTROL</span>
+                    <h3>مدیریت کاربران</h3>
+                    <p>
+                        دسترسی به بخش کاربران برای بررسی
+                        و مدیریت حساب‌های کاربری.
+                    </p>
+                </div>
+
+                <div class="card-bottom">
+                    <span>ورود به مدیریت کاربران</span>
+                    <span class="arrow">←</span>
+                </div>
+            </a>
+
+            <a class="dashboard-card messages-card"
+               th:href="@{/admin/messages}">
+                <div class="card-top">
+                    <span class="card-icon">✉</span>
+                    <span class="card-index">04</span>
+                </div>
+
+                <div class="card-content">
+                    <span class="card-kicker">MESSAGE CENTER</span>
+                    <h3>پیام‌های کاربران</h3>
+                    <p>
+                        ورود به مرکز پیام‌های کاربران؛
+                        جزئیات این بخش را در مرحله‌ی بعد می‌سازیم.
+                    </p>
+                </div>
+
+                <div class="card-bottom">
+                    <span>ورود به پیام‌ها</span>
+                    <span class="arrow">←</span>
+                </div>
+            </a>
+
+        </section>
+
+        <footer class="dashboard-footer">
+            <span class="footer-mark">NEXORA</span>
+            <span>پنل مدیریت محتوا</span>
+            <span class="footer-status">
+                <span class="status-dot"></span>
+                محیط مدیریت
+            </span>
+        </footer>
+
+    </main>
+</div>
+
+</body>
+</html>

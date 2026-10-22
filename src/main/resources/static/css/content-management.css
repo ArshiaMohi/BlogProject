@@ -1126,3 +1126,30 @@ a {
         transition-duration: .01ms !important;
     }
 }
+
+.back-dashboard-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 16px;
+    border: 1px solid rgba(88, 230, 224, 0.25);
+    border-radius: 12px;
+    background: rgba(88, 230, 224, 0.07);
+    color: #58e6e0;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.back-dashboard-btn:hover {
+    background: rgba(88, 230, 224, 0.15);
+    border-color: rgba(88, 230, 224, 0.6);
+    transform: translateY(-2px);
+}
+
+.back-dashboard-btn span {
+    font-size: 19px;
+}
