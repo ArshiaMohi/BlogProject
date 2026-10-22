@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071329">
+    <title>NEXORA | جایی برای ایده‌های بزرگ</title>
+    <meta name="description" content="داستان‌های تازه، ایده‌های الهام‌بخش و نوشته‌هایی که ارزش خواندن دارند.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/home.css}" href="/css/home.css">
+</head>
+<body>
+<div class="ambient ambient-a"></div>
+<div class="ambient ambient-b"></div>
+<div class="noise"></div>
+
+<header class="site-header" id="top">
+    <div class="header-inner">
+        <a class="brand" th:href="@{/home}" href="/home" aria-label="صفحه اصلی NEXORA">
+            <span class="brand-symbol"><i></i><i></i><i></i><i></i></span>
+            <span>NEXORA<span class="brand-dot">.</span></span>
+        </a>
+
+        <button class="menu-toggle" id="menuToggle" type="button"
+                aria-label="باز کردن منو" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav class="main-nav" id="mainNav" aria-label="منوی اصلی">
+            <a class="nav-link active" href="/home">خانه</a>
+            <a class="nav-link" href="#latest">تازه‌ترین نوشته‌ها</a>
+            <a class="nav-link" href="#categories">دسته‌بندی‌ها</a>
+            <a class="nav-link" href="#about">دربارهٔ NEXORA</a>
+        </nav>
+
+        <div class="header-actions">
+            <form class="search-form" id="searchForm" action="/posts/search" method="get" role="search">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="10.8" cy="10.8" r="6.8"></circle>
+                    <path d="m16 16 4.5 4.5"></path>
+                </svg>
+                <input id="searchInput" name="title" type="search" placeholder="دنبال چی می‌گردی؟"
+                       aria-label="جست‌وجوی عنوان پست">
+                <button type="submit" aria-label="جست‌وجو">↵</button>
+            </form>
+            <a class="avatar-link" href="/login" title="ورود به حساب کاربری" aria-label="حساب کاربری">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="3.5"></circle>
+                    <path d="M5 20c.5-3.7 3-5.5 7-5.5s6.5 1.8 7 5.5"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="hero section-wrap">
+        <div class="hero-copy reveal">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> جایی برای فکرهای متفاوت</div>
+            <h1>بعضی ایده‌ها<br>منتظرن <span class="gradient-text">کشف بشن.</span></h1>
+            <p class="hero-description">
+                وارد دنیایی از نوشته‌ها، تجربه‌ها و دیدگاه‌های تازه شو.
+                شاید ایدهٔ بعدی که ذهنت رو روشن می‌کنه همین‌جا منتظرته.
+            </p>
+
+            <div class="hero-actions">
+                <a class="button button-primary" href="#latest">
+                    <span>کشف نوشته‌ها</span><span class="button-arrow">←</span>
+                </a>
+                <a class="button button-quiet" href="#categories">
+                    گشت‌وگذار در دسته‌ها <span>↗</span>
+                </a>
+            </div>
+
+            <div class="hero-proof">
+                <span class="proof-icon">✦</span>
+                <span>هر نوشته، یک پنجره به دنیایی تازه</span>
+                <span class="proof-line"></span>
+            </div>
+        </div>
+
+        <div class="hero-art reveal" aria-label="نمای گرافیکی NEXORA">
+            <div class="art-orbit orbit-one"></div>
+            <div class="art-orbit orbit-two"></div>
+            <div class="art-orbit orbit-three"></div>
+            <div class="art-glow"></div>
+            <div class="art-core">
+                <div class="core-inner">
+                    <span class="core-star">✳</span>
+                    <span class="core-word">IDEAS</span>
+                    <span class="core-caption">THINK BEYOND</span>
+                </div>
+            </div>
+            <div class="art-chip chip-top"><span class="chip-dot cyan"></span> فکر کن متفاوت</div>
+            <div class="art-chip chip-bottom"><span class="chip-spark">✧</span> چیزی تازه کشف کن</div>
+            <div class="art-mini mini-one">N°01</div>
+            <div class="art-mini mini-two">EXPLORE / CREATE</div>
+        </div>
+        <a class="scroll-cue" href="#latest"><span></span> اسکرول کن و کشف کن</a>
+    </section>
+
+    <section class="category-section section-wrap reveal" id="categories">
+        <div class="section-heading">
+            <div>
+                <div class="section-kicker">EXPLORE BY INTEREST</div>
+                <h2>از کجا <span class="gradient-text">شروع کنیم؟</span></h2>
+            </div>
+            <p>موضوعی رو انتخاب کن که همین امروز ذهنت رو درگیر کرده.</p>
+        </div>
+
+        <div class="category-list" th:if="${categories != null and !categories.isEmpty()}">
+            <a class="category-pill" th:each="category, iter : ${categories}"
+               href="#latest" th:attr="data-category=${category.name}">
+                <span class="category-number"
+                      th:text="${iter.index < 9 ? '0' + (iter.index + 1) : iter.index + 1}">01</span>
+                <span th:text="${category.name}">دسته‌بندی</span>
+                <span class="category-arrow">↗</span>
+            </a>
+        </div>
+        <div class="empty-categories" th:if="${categories == null or categories.isEmpty()}">
+            دسته‌بندی‌ها هنوز اضافه نشدن؛ به‌زودی این بخش پر از موضوع‌های تازه می‌شه.
+        </div>
+    </section>
+
+    <section class="featured-section section-wrap" id="featured">
+        <div class="featured-backdrop"></div>
+        <div class="featured-top">
+            <div>
+                <div class="section-kicker">THE EDITOR'S SPOTLIGHT</div>
+                <h2>چیزی که باید <span class="gradient-text">بخونی.</span></h2>
+            </div>
+            <div class="slider-controls" th:if="${posts != null and posts.size() > 1}">
+                <button id="sliderPrev" type="button" aria-label="نوشته قبلی">→</button>
+                <span class="slider-counter"><b id="sliderCurrent">01</b><span>/</span><span id="sliderTotal"
+                                                                                             th:text="${posts.size() < 4 ? (posts.size() < 10 ? '0' + posts.size() : posts.size()) : '04'}">04</span></span>
+                <button id="sliderNext" type="button" aria-label="نوشته بعدی">←</button>
+            </div>
+        </div>
+
+        <div class="featured-slider" id="featuredSlider"
+             th:if="${posts != null and !posts.isEmpty()}">
+            <article class="featured-card" th:each="post, iter : ${posts}"
+                     th:if="${iter.index < 4}" th:classappend="${iter.index == 0 ? ' is-active' : ''}"
+                     th:attr="data-slide=${iter.index}">
+                <a class="featured-image" th:href="@{/post/{id}(id=${post.id})}"
+                   th:aria-label="'خواندن ' + ${post.title}">
+                    <img th:if="${post.image != null and post.image.length > 0}"
+                         th:src="@{/posts/image/{id}(id=${post.id})}"
+                         th:alt="${post.title}" loading="lazy">
+                    <div class="image-placeholder" th:if="${post.image == null or post.image.length == 0}">
+                        <span class="placeholder-orbit"></span><span class="placeholder-star">✳</span>
+                        <span class="placeholder-label">NEXORA / FEATURED</span>
+                    </div>
+                    <span class="image-badge">✦ انتخاب امروز</span>
+                </a>
+                <div class="featured-content">
+                    <div class="post-meta">
+                        <span class="meta-category" th:text="${post.categoryName}">موضوع</span>
+                        <span class="meta-separator"></span>
+                        <span th:text="${post.publishedAt != null ? #temporals.format(post.publishedAt, 'yyyy/MM/dd') : 'نوشتهٔ تازه'}">تاریخ انتشار</span>
+                    </div>
+                    <h3><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}">عنوان نوشته</a></h3>
+                    <p th:text="${post.excerpt}">خلاصهٔ نوشته در این قسمت نمایش داده می‌شود.</p>
+                    <div class="featured-bottom">
+                        <div class="author">
+                            <span class="author-avatar">✦</span>
+                            <span><small>نوشته‌شده توسط</small><strong
+                                    th:text="${post.authorName}">نویسنده</strong></span>
+                        </div>
+                        <a class="read-link" th:href="@{/post/{id}(id=${post.id})}">
+                            ادامهٔ داستان <span>←</span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="empty-state" th:if="${posts == null or posts.isEmpty()}">
+            <span class="empty-symbol">✧</span>
+            <h3>داستان اول هنوز نوشته نشده.</h3>
+            <p>به محض اینکه یک پست منتشر بشه، اینجا می‌درخشه.</p>
+        </div>
+        <div class="slider-progress" id="sliderProgress" th:if="${posts != null and posts.size() > 1}">
+            <span id="sliderProgressBar"></span>
+        </div>
+    </section>
+
+    <section class="latest-section section-wrap" id="latest">
+        <div class="section-heading latest-heading">
+            <div>
+                <div class="section-kicker">FRESH FROM THE BLOG</div>
+                <h2>تازه‌ترین <span class="gradient-text">نوشته‌ها</span></h2>
+                <p class="section-description">تازه منتشر شدن؛ شاید دقیقاً همون چیزی باشن که دنبالش بودی.</p>
+            </div>
+            <a class="text-link" href="#latest">از آخرین‌ها شروع کن <span>↙</span></a>
+        </div>
+
+        <div class="posts-grid" th:if="${posts != null and !posts.isEmpty()}">
+            <article class="post-card reveal" th:each="post : ${posts}">
+                <a class="post-cover" th:href="@{/post/{id}(id=${post.id})}">
+                    <img th:if="${post.image != null and post.image.length > 0}"
+                         th:src="@{/posts/image/{id}(id=${post.id})}"
+                         th:alt="${post.title}" loading="lazy">
+                    <div class="image-placeholder small-placeholder"
+                         th:if="${post.image == null or post.image.length == 0}">
+                        <span class="placeholder-orbit"></span><span class="placeholder-star">✳</span>
+                        <span class="placeholder-label">NEXORA</span>
+                    </div>
+                    <span class="cover-arrow">↗</span>
+                </a>
+                <div class="post-card-body">
+                    <div class="post-meta">
+                        <span class="meta-category" th:text="${post.categoryName}">موضوع</span>
+                        <span class="meta-separator"></span>
+                        <span th:text="${post.publishedAt != null ? #temporals.format(post.publishedAt, 'yyyy/MM/dd') : 'نوشتهٔ تازه'}">تاریخ</span>
+                    </div>
+                    <h3><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}">عنوان نوشته</a></h3>
+                    <p th:text="${post.excerpt}">خلاصهٔ پست در اینجا قرار می‌گیرد.</p>
+                    <div class="card-footer">
+                        <span class="author-name"><span class="author-dot"></span><span th:text="${post.authorName}">نویسنده</span></span>
+                        <a th:href="@{/post/{id}(id=${post.id})}" class="card-read" aria-label="خواندن نوشته">←</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="empty-state compact-empty" th:if="${posts == null or posts.isEmpty()}">
+            هنوز نوشته‌ای برای نمایش وجود نداره.
+        </div>
+
+        <nav class="pagination" aria-label="صفحه‌بندی نوشته‌ها"
+             th:if="${totalPages != null and totalPages > 1}">
+            <a th:if="${currentPage > 0}" th:href="@{/home(page=${currentPage - 1})}" aria-label="صفحه قبلی">→</a>
+            <span class="page-number" th:text="${currentPage + 1}">1</span>
+            <span class="page-divider">از</span>
+            <span class="page-total" th:text="${totalPages}">1</span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/home(page=${currentPage + 1})}"
+               aria-label="صفحه بعدی">←</a>
+        </nav>
+    </section>
+
+    <section class="tag-section section-wrap reveal" th:if="${tags != null and !tags.isEmpty()}">
+        <div class="tag-intro">
+            <span class="section-kicker">SMALL WORDS, BIG IDEAS</span>
+            <h2>رد پای <span class="gradient-text">موضوع‌ها</span></h2>
+        </div>
+        <div class="tag-cloud">
+            <a th:each="tag : ${tags}"
+               href="#latest"
+               th:attr="data-search-tag=${tag.name}"
+               class="tag-chip">
+                <span>#</span><span th:text="${tag.name}">تگ</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="closing-cta section-wrap reveal" id="about">
+        <div class="cta-orb"></div>
+        <div class="cta-content">
+            <span class="cta-kicker">YOUR NEXT IDEA STARTS HERE</span>
+            <h2>یه فکر کوچیک می‌تونه<br><span class="gradient-text">شروع یه اتفاق بزرگ باشه.</span></h2>
+            <p>بخون، کنجکاو بمون و هر روز یه چیز تازه کشف کن.</p>
+            <a class="button button-primary" href="#latest">بریم سراغ نوشته‌ها <span class="button-arrow">←</span></a>
+        </div>
+        <div class="cta-art" aria-hidden="true"><span>✳</span><i></i><b></b></div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-main section-wrap">
+        <div class="footer-brand">
+            <a class="brand" href="/home">
+                <span class="brand-symbol"><i></i><i></i><i></i><i></i></span>
+                <span>NEXORA<span class="brand-dot">.</span></span>
+            </a>
+            <p>جایی برای ایده‌هایی که ارزش دیده‌شدن دارن؛ برای فکرهایی که دنیا رو از زاویه‌ای تازه می‌بینن.</p>
+        </div>
+        <div class="footer-column">
+            <h3>گشت‌وگذار</h3>
+            <a href="/home">صفحهٔ اصلی</a>
+            <a href="#latest">تازه‌ترین نوشته‌ها</a>
+            <a href="#categories">دسته‌بندی‌ها</a>
+        </div>
+        <div class="footer-column">
+            <h3>حساب کاربری</h3>
+            <a href="/login">ورود</a>
+            <a href="/register">ساخت حساب</a>
+        </div>
+        <div class="footer-note">
+            <span class="footer-spark">✦</span>
+            <p>کنجکاوی رو زنده نگه دار.</p>
+            <small>هر روز، یک کشف تازه.</small>
+        </div>
+    </div>
+    <div class="footer-bottom section-wrap">
+        <span>© NEXORA — تمام حقوق محفوظ است.</span>
+        <a href="#top">بازگشت به بالا ↑</a>
+        <span class="footer-made">با <b>♥</b> برای ذهن‌های کنجکاو</span>
+    </div>
+</footer>
+
+<div class="toast" id="homeToast" role="status" aria-live="polite"></div>
+<script th:src="@{/js/home.js}" src="/js/home.js" defer></script>
+</body>
+</html>
