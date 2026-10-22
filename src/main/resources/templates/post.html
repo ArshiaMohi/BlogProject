@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071329">
+    <title th:text="${post.title} + ' | NEXORA'">مقاله | NEXORA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/post.css}">
+    <script th:src="@{/js/post.js}" defer></script>
+</head>
+
+<body>
+<div class="ambient ambient-one"></div>
+<div class="ambient ambient-two"></div>
+
+<header class="post-header">
+    <a class="brand" th:href="@{/home}" aria-label="NEXORA صفحه خانه">
+        <span class="brand-mark"><i></i><i></i><i></i><i></i></span>
+        <span>NEXORA<span class="brand-dot">.</span></span>
+    </a>
+
+    <a class="back-link" th:href="@{/home}">
+        <span aria-hidden="true">←</span>
+        بازگشت به خانه
+    </a>
+</header>
+
+<main class="page-shell">
+
+    <nav class="breadcrumbs" aria-label="مسیر صفحه">
+        <a th:href="@{/home}">خانه</a>
+        <span>/</span>
+        <span th:text="${post.categoryName != null ? post.categoryName : 'مقاله'}">
+            دسته‌بندی
+        </span>
+        <span>/</span>
+        <span class="crumb-current" th:text="${post.title}">عنوان مقاله</span>
+    </nav>
+
+    <!-- Article -->
+    <article class="article-card">
+
+        <div class="article-topline">
+            <span class="category-label"
+                  th:text="${post.categoryName != null ? post.categoryName : 'بدون دسته‌بندی'}">
+                Coding
+            </span>
+
+            <span class="reading-badge">NEXORA · ARTICLE</span>
+        </div>
+
+        <h1 class="article-title" th:text="${post.title}">
+            عنوان مقاله
+        </h1>
+
+        <p class="article-excerpt"
+           th:if="${post.excerpt != null and !#strings.isEmpty(post.excerpt)}"
+           th:text="${post.excerpt}">
+            خلاصه مقاله
+        </p>
+
+        <div class="article-meta">
+            <span class="author-icon" aria-hidden="true">✦</span>
+            <span>نوشته‌شده توسط</span>
+
+            <strong th:text="${post.authorName != null ? post.authorName : 'نویسنده'}">
+                نویسنده
+            </strong>
+
+            <span class="meta-dot"></span>
+
+            <span th:if="${post.publishedAt != null}"
+                  th:text="${#temporals.format(post.publishedAt, 'yyyy/MM/dd')}">
+                تاریخ انتشار
+            </span>
+
+            <span th:unless="${post.publishedAt != null}"
+                  th:text="${post.createdAt != null ? #temporals.format(post.createdAt, 'yyyy/MM/dd') : ''}">
+                تاریخ
+            </span>
+
+            <span class="meta-dot"></span>
+
+            <span th:text="${post.views != null ? post.views + ' بازدید' : 'مقاله'}">
+                بازدید
+            </span>
+        </div>
+
+        <div class="article-cover"
+             th:if="${post.image != null and post.image.length > 0}">
+            <img th:src="@{/posts/image/{id}(id=${post.id})}"
+                 th:alt="${post.title}"
+                 fetchpriority="high">
+            <span class="cover-glow"></span>
+        </div>
+
+        <div class="article-body" th:text="${post.content}">
+            محتوای مقاله اینجا نمایش داده می‌شود.
+        </div>
+
+        <div class="article-end">
+            <span class="end-star">✦</span>
+            <span>به پایان مقاله رسیدی</span>
+            <span class="end-star">✦</span>
+        </div>
+    </article>
+
+    <!-- Comments -->
+    <section class="comments-section" id="comments">
+
+        <div class="section-heading">
+            <div>
+                <span class="section-kicker">THE CONVERSATION</span>
+                <h2>گفت‌وگو زیر مقاله</h2>
+                <p>نظرت رو بنویس؛ بعد از تأیید مدیر، برای همه نمایش داده می‌شه.</p>
+            </div>
+
+            <div class="comment-count">
+                <strong th:text="${#lists.size(comments)}">0</strong>
+                <span>دیدگاه تأییدشده</span>
+            </div>
+        </div>
+
+        <div class="comments-list" id="commentsList">
+
+            <div class="empty-comments"
+                 th:if="${#lists.isEmpty(comments)}"
+                 id="emptyComments">
+                <span class="empty-icon">✧</span>
+                <strong>اولین نفری باش که نظر می‌ده!</strong>
+                <p>هنوز دیدگاه تأییدشده‌ای برای این مقاله ثبت نشده.</p>
+            </div>
+
+            <article class="comment-card" th:each="comment : ${comments}">
+                <div class="comment-avatar" aria-hidden="true"
+                     th:text="${#strings.length(comment.name) > 0
+                     ? #strings.substring(comment.name, 0, 1).toUpperCase()
+                     : 'N'}">
+                    N
+                </div>
+
+                <div class="comment-main">
+                    <div class="comment-heading">
+                        <strong th:text="${comment.name}">نام نویسنده</strong>
+
+                        <time th:if="${comment.createdAt != null}"
+                              th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd · HH:mm')}">
+                            تاریخ
+                        </time>
+                    </div>
+
+                    <p th:text="${comment.content}">متن دیدگاه</p>
+                </div>
+            </article>
+        </div>
+
+        <div class="comment-cta" id="commentCta">
+            <div>
+                <span class="cta-spark">✦</span>
+                <h3>چیزی برای گفتن داری؟</h3>
+                <p>دیدگاهت رو با بقیه به اشتراک بذار.</p>
+            </div>
+
+            <button class="primary-button" id="openCommentForm" type="button">
+                نوشتن دیدگاه <span aria-hidden="true">↙</span>
+            </button>
+        </div>
+
+        <!-- New comment form -->
+        <form class="comment-form"
+              id="commentForm"
+              th:attr="data-post-id=${post.id}"
+              hidden>
+
+            <div class="form-heading">
+                <div>
+                    <span class="section-kicker">YOUR THOUGHTS</span>
+                    <h3>دیدگاه جدید</h3>
+                </div>
+
+                <button class="close-form"
+                        id="closeCommentForm"
+                        type="button"
+                        aria-label="بستن فرم">×</button>
+            </div>
+
+            <div class="form-grid">
+
+                <label class="field">
+                    <span>نام نمایشی <b>*</b></span>
+                    <input type="text"
+                           name="name"
+                           maxlength="80"
+                           autocomplete="name"
+                           placeholder="مثلاً آرشیا"
+                           required>
+                </label>
+
+                <label class="field">
+                    <span>ایمیل <b>*</b></span>
+                    <input type="email"
+                           name="email"
+                           maxlength="254"
+                           autocomplete="email"
+                           placeholder="you@example.com"
+                           required>
+                    <small>ایمیلت در بخش دیدگاه‌ها نمایش داده نمی‌شه.</small>
+                </label>
+
+                <label class="field field-full">
+                    <span>متن دیدگاه <b>*</b></span>
+                    <textarea name="content"
+                              rows="5"
+                              minlength="2"
+                              maxlength="3000"
+                              placeholder="نظرت درباره‌ی این مقاله چیه؟"
+                              required></textarea>
+                    <small class="character-count" id="characterCount">۰ / ۳۰۰۰</small>
+                </label>
+
+            </div>
+
+            <div class="form-actions">
+                <p>دیدگاه پس از ثبت، برای بررسی مدیر ارسال می‌شه.</p>
+
+                <button class="primary-button" type="submit" id="submitComment">
+                    <span class="button-label">ثبت دیدگاه</span>
+                    <span aria-hidden="true">↗</span>
+                </button>
+            </div>
+
+            <div class="form-message"
+                 id="formMessage"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+        </form>
+    </section>
+
+    <div class="bottom-back">
+        <a class="back-link" th:href="@{/home}">
+            <span aria-hidden="true">←</span>
+            برگشت به مقاله‌ها
+        </a>
+    </div>
+</main>
+
+<footer class="post-footer">
+    <a class="brand" th:href="@{/home}">
+        <span class="brand-mark"><i></i><i></i><i></i><i></i></span>
+        <span>NEXORA<span class="brand-dot">.</span></span>
+    </a>
+
+    <span>ایده‌ها وقتی بهتر می‌شن که به اشتراک گذاشته بشن.</span>
+</footer>
+
+</body>
+</html>

@@ -1,13 +1,16 @@
 
 package com.arshia.blogproject.controller;
 
+import com.arshia.blogproject.dto.post.PostResponseDto;
 import com.arshia.blogproject.service.CategoryService;
+import com.arshia.blogproject.service.CommentService;
 import com.arshia.blogproject.service.PostService;
 import com.arshia.blogproject.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -17,6 +20,7 @@ public class PageController {
     private final PostService postService;
     private final CategoryService categoryService;
     private final TagService tagService;
+    private final CommentService commentService;
 
     @GetMapping("/")
     public String index() {
@@ -51,6 +55,18 @@ public class PageController {
         model.addAttribute("tags", tagService.findAll());
 
         return "home";
+    }
+
+    @GetMapping("/post/{id}")
+    public String postDetail(@PathVariable int id, Model model) {
+        PostResponseDto post = postService.findPublishedById(id);
+
+        model.addAttribute("post", post);
+        model.addAttribute(
+                "comments",
+                commentService.findApprovedByPostId(id)
+        );
+        return "post";
     }
 }
 
