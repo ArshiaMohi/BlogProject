@@ -91,6 +91,14 @@ public class PageController {
 
         return "create-post";
     }
+
+    @GetMapping("/admin/content")
+    public String contentManagement(Model model) {
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("tags", tagService.findAll());
+
+        return "admin/content-management";
+    }
 }
 
 
