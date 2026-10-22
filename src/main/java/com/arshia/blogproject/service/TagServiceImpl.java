@@ -30,6 +30,7 @@ public class TagServiceImpl implements TagService {
 
         dto.setId(tag.getId());
         dto.setName(tag.getName());
+        dto.setSlug(tag.getSlug());
 
         return dto;
     }

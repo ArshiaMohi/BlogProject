@@ -28,8 +28,6 @@ public class PostCreateDto {
 
     private String imageName;
 
-    private Status status;
-
     private int authorId;
 
     private int categoryId;

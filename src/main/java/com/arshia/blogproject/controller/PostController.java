@@ -94,16 +94,6 @@ public class PostController {
         return postService.update(id, postCreateDto);
     }
 
-    @PutMapping("/publish/{id}")
-    public PostResponseDto publish(@PathVariable int id) {
-        return postService.publish(id);
-    }
-
-    @PutMapping("/unpublish/{id}")
-    public PostResponseDto unpublish(@PathVariable int id) {
-        return postService.unpublish(id);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
         postService.deleteById(id);

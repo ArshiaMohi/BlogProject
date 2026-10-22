@@ -50,7 +50,7 @@ public class PostServiceImpl implements PostService {
         post.setImage(postCreateDto.getImage());
         post.setImageContentType(postCreateDto.getImageContentType());
         post.setImageName(postCreateDto.getImageName());
-        post.setStatus(postCreateDto.getStatus());
+        post.setStatus(Status.DRAFT);
 
         ApplicationUser author = applicationUserRepository
                 .findById(postCreateDto.getAuthorId()).orElseThrow();
@@ -155,6 +155,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostResponseDto findPublishedById(int id) {
         Post post = postRepository.findByIdAndStatus(id, Status.PUBLISHED).orElseThrow();
+        incrementViews(post.getId());
         return convertPostToResponse(post);
     }
 

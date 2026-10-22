@@ -45,7 +45,7 @@ public class Post {
     private String imageName;
     
     @Enumerated(EnumType.STRING)
-    private Status status = Status.DRAFT;
+    private Status status;
 
     private Integer views = 0;
 

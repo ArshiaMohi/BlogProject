@@ -33,6 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
         dto.setId(category.getId());
         dto.setName(category.getName());
         dto.setDescription(category.getDescription());
+        dto.setSlug(category.getSlug());
 
         return dto;
     }

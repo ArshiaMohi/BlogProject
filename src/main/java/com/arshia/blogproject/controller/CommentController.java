@@ -35,16 +35,6 @@ public class CommentController {
         return commentService.findApprovedByPostId(postId);
     }
 
-    @PutMapping("/approve/{id}")
-    public CommentResponseDto approve(@PathVariable int id) {
-        return commentService.approve(id);
-    }
-
-    @PutMapping("/unapprove/{id}")
-    public CommentResponseDto unapprove(@PathVariable int id) {
-        return commentService.unapprove(id);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id) {
         commentService.deleteById(id);
