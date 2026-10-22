@@ -1,3 +1,4 @@
+
 package com.arshia.blogproject.config;
 
 import com.arshia.blogproject.service.CustomUserDetailsService;
@@ -21,6 +22,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/", "/register").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers(
                                 "/css/**",
