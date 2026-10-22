@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت پست‌ها | NEXORA</title>
+    <link rel="stylesheet" th:href="@{/css/admin-posts.css}">
+    <script th:src="@{/js/admin-posts.js}" defer></script>
+</head>
+
+<body>
+<div class="posts-shell">
+
+    <header class="posts-topbar">
+        <a class="posts-brand" th:href="@{/admin/dashboard}">
+            <span class="brand-mark">N</span>
+            <span>NEXORA</span>
+            <span class="admin-chip">ADMIN</span>
+        </a>
+
+        <a class="back-dashboard-btn" th:href="@{/admin/dashboard}">
+            <span>←</span>
+            بازگشت به داشبورد
+        </a>
+    </header>
+
+    <main>
+        <section class="posts-hero">
+            <div>
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    POST CONTROL CENTER
+                </div>
+                <h1>مدیریت <span>پست‌ها</span></h1>
+                <p>نوشته‌ها رو بررسی کن، ویرایش کن و وضعیت انتشارشون رو کنترل کن.</p>
+            </div>
+
+            <div class="hero-count">
+                <span>کل پست‌ها</span>
+                <strong th:text="${#lists.size(posts)}">0</strong>
+            </div>
+        </section>
+
+        <section class="posts-toolbar">
+            <div class="search-box">
+                <span>⌕</span>
+                <input id="postSearch" type="search"
+                       placeholder="جست‌وجو بر اساس عنوان، نویسنده یا دسته‌بندی...">
+            </div>
+
+            <select id="statusFilter" aria-label="فیلتر وضعیت پست">
+                <option value="ALL">همه‌ی وضعیت‌ها</option>
+                <option value="PUBLISHED">منتشرشده</option>
+                <option value="DRAFT">پیش‌نویس</option>
+            </select>
+
+            <span class="result-count" id="resultCount"
+                  th:text="${#lists.size(posts)} + ' پست'">0 پست</span>
+        </section>
+
+        <section class="post-list" id="postList">
+
+            <article class="post-row"
+                     th:each="post : ${posts}"
+
+                     th:attr="data-id=${post.id},
+         data-title=${post.title},
+         data-slug=${post.slug},
+         data-excerpt=${post.excerpt},
+         data-content=${post.content},
+         data-author=${post.authorName},
+         data-category=${post.categoryName},
+         data-status=${post.status}"
+
+            >
+
+                <div class="post-thumbnail">
+                    <img th:if="${post.image != null and post.image.length > 0}"
+                         th:src="@{/posts/image/{id}(id=${post.id})}"
+                         th:alt="${post.title}"
+                         loading="lazy">
+
+                    <div class="thumbnail-placeholder"
+                         th:if="${post.image == null or post.image.length == 0}">
+                        <span>✧</span>
+                        <small>NEXORA</small>
+                    </div>
+                </div>
+
+                <div class="post-info">
+                    <div class="post-meta">
+                        <span class="post-id"
+                              th:text="'POST #' + ${post.id}">POST #1</span>
+
+                        <span class="status-badge"
+                              th:classappend="${post.status.name() == 'PUBLISHED'} ? ' is-published' : ' is-draft'"
+                              th:text="${post.status.name() == 'PUBLISHED'} ? 'منتشرشده' : 'پیش‌نویس'">
+                            پیش‌نویس
+                        </span>
+                    </div>
+
+                    <h2 class="post-title" th:text="${post.title}">عنوان پست</h2>
+
+                    <p class="post-excerpt"
+                       th:text="${post.excerpt != null and !post.excerpt.isBlank()} ? ${post.excerpt} : 'توضیحی برای این پست ثبت نشده است.'">
+                        خلاصه‌ی پست
+                    </p>
+
+                    <div class="post-details">
+                        <span>
+                            <span class="detail-icon">♙</span>
+                            <span th:text="${post.authorName}">نویسنده</span>
+                        </span>
+                        <span>
+                            <span class="detail-icon">◇</span>
+                            <span th:text="${post.categoryName}">دسته‌بندی</span>
+                        </span>
+                        <span>
+                            <span class="detail-icon">◉</span>
+                            <span th:text="${post.views != null ? post.views : 0} + ' بازدید'">0 بازدید</span>
+                        </span>
+                    </div>
+
+                    <div class="post-tags"
+                         th:if="${post.tagNames != null and !post.tagNames.isEmpty()}">
+                        <span class="tag-chip"
+                              th:each="tag : ${post.tagNames}"
+                              th:text="${tag}">تگ</span>
+                    </div>
+                </div>
+
+                <div class="post-actions">
+                    <button type="button" class="action-btn edit-btn"
+                            th:attr="data-id=${post.id}"
+                            title="ویرایش پست">ویرایش
+                    </button>
+
+                    <button type="button"
+                            class="action-btn publish-btn"
+                            th:if="${post.status.name() == 'DRAFT'}"
+                            th:attr="data-id=${post.id}"
+                            title="انتشار پست">انتشار
+                    </button>
+
+                    <button type="button"
+                            class="action-btn unpublish-btn"
+                            th:if="${post.status.name() == 'PUBLISHED'}"
+                            th:attr="data-id=${post.id}"
+                            title="لغو انتشار">لغو انتشار
+                    </button>
+
+                    <button type="button" class="action-btn delete-btn"
+                            th:attr="data-id=${post.id}"
+                            title="حذف پست">حذف
+                    </button>
+                </div>
+            </article>
+
+            <div class="empty-posts"
+                 th:if="${#lists.isEmpty(posts)}">
+                <div class="empty-icon">✧</div>
+                <h2>هنوز پستی وجود نداره</h2>
+                <p>وقتی پستی ثبت بشه، اینجا نمایش داده می‌شه.</p>
+            </div>
+
+            <div class="empty-posts" id="noSearchResults" hidden>
+                <div class="empty-icon">⌕</div>
+                <h2>پستی پیدا نشد</h2>
+                <p>عبارت جست‌وجو یا فیلتر وضعیت رو تغییر بده.</p>
+            </div>
+
+        </section>
+    </main>
+</div>
+
+<div class="modal-backdrop" id="editModal" hidden>
+    <section class="edit-modal" role="dialog" aria-modal="true"
+             aria-labelledby="editModalTitle">
+
+        <div class="modal-heading">
+            <div>
+                <span class="eyebrow">EDIT POST</span>
+                <h2 id="editModalTitle">ویرایش پست</h2>
+            </div>
+            <button type="button" id="closeEditModal"
+                    class="modal-close" aria-label="بستن">×
+            </button>
+        </div>
+
+        <form id="editPostForm">
+            <input type="hidden" id="editPostId">
+
+            <label for="editTitle">عنوان</label>
+            <input id="editTitle" name="title" required maxlength="250">
+
+            <label for="editSlug">Slug</label>
+            <input id="editSlug" name="slug" required>
+
+            <label for="editExcerpt">خلاصه‌ی پست</label>
+            <textarea id="editExcerpt" name="excerpt" rows="3" required></textarea>
+
+            <label for="editContent">متن پست</label>
+            <textarea id="editContent" name="content" rows="7" required></textarea>
+
+            <label for="editImage">تصویر جدید (اختیاری)</label>
+            <input id="editImage" name="imageFile" type="file"
+                   accept="image/*">
+
+            <p class="modal-hint">
+                اگر تصویر جدید انتخاب نکنی، تصویر فعلی حفظ می‌شه.
+                نویسنده، دسته‌بندی و تگ‌ها در این فرم تغییر نمی‌کنن.
+            </p>
+
+            <div class="modal-actions">
+                <button type="button" class="cancel-btn" id="cancelEdit">انصراف</button>
+                <button type="submit" class="save-btn" id="savePostBtn">ذخیره تغییرات</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<div class="toast" id="postToast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

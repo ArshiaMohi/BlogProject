@@ -104,6 +104,12 @@ public class PageController {
     public String dashboard() {
         return "admin/dashboard";
     }
+
+    @GetMapping("/admin/posts")
+    public String managePosts(Model model) {
+        model.addAttribute("posts", postService.findAll());
+        return "admin/post-management";
+    }
 }
 
 
