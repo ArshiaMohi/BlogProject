@@ -2,11 +2,14 @@
 package com.arshia.blogproject.controller;
 
 import com.arshia.blogproject.dto.post.PostResponseDto;
+import com.arshia.blogproject.entity.ApplicationUser;
+import com.arshia.blogproject.repository.ApplicationUserRepository;
 import com.arshia.blogproject.service.CategoryService;
 import com.arshia.blogproject.service.CommentService;
 import com.arshia.blogproject.service.PostService;
 import com.arshia.blogproject.service.TagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,7 @@ public class PageController {
     private final CategoryService categoryService;
     private final TagService tagService;
     private final CommentService commentService;
+    private final ApplicationUserRepository applicationUserRepository;
 
     @GetMapping("/")
     public String index() {
@@ -67,6 +71,25 @@ public class PageController {
                 commentService.findApprovedByPostId(id)
         );
         return "post";
+    }
+
+    @GetMapping("/create-post")
+    public String createPostPage(
+            Authentication authentication,
+            Model model) {
+
+        ApplicationUser user = applicationUserRepository
+                .findByUsername(authentication.getName())
+                .orElseThrow(() ->
+                        new IllegalStateException(
+                                "کاربر واردشده در سیستم پیدا نشد."
+                        ));
+
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("tags", tagService.findAll());
+        model.addAttribute("authorId", user.getId());
+
+        return "create-post";
     }
 }
 

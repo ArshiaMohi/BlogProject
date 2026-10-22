@@ -376,4 +376,45 @@ button { color: inherit; }
         min-height: 215px;
     }
 }
+.create-post-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 39px;
+    padding: 0 15px;
+    border: 1px solid #75dfff55;
+    border-radius: 11px;
+    background: linear-gradient(
+            110deg,
+            #3268f5,
+            #278de8 55%,
+            #22b4d0
+    );
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 7px 22px #2779ef20;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.create-post-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px #2779ef40;
+}
+
+.create-post-icon {
+    font-size: 19px;
+    line-height: 1;
+}
+
+@media (max-width: 600px) {
+    .create-post-button {
+        min-height: 35px;
+        padding: 0 10px;
+        font-size: 10px;
+    }
+}
 

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071329">
+
+    <title>ساخت پست جدید | NEXORA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/post-create.css}">
+    <script th:src="@{/js/post-create.js}" defer></script>
+</head>
+
+<body>
+
+<header class="topbar">
+    <a class="brand" th:href="@{/home}">
+        <span class="brand-symbol">✦</span>
+        NEXORA<span class="brand-dot">.</span>
+    </a>
+
+    <a class="back-link" th:href="@{/home}">
+        <span>←</span>
+        بازگشت به خانه
+    </a>
+</header>
+
+<main class="create-layout">
+
+    <section class="intro">
+        <div class="intro-badge">
+            <span class="pulse-dot"></span>
+            YOUR STORY STARTS HERE
+        </div>
+
+        <h1>
+            ایده‌ات رو
+            <span>منتشر کن.</span>
+        </h1>
+
+        <p>
+            دانسته‌ها، تجربه‌ها و ایده‌هات رو با جامعه‌ی NEXORA به اشتراک بذار.
+            پستت بعد از ثبت برای بررسی مدیر ارسال می‌شه.
+        </p>
+
+        <div class="steps">
+            <div class="step active">
+                <span>01</span>
+                <div>
+                    <strong>ساخت مقاله</strong>
+                    <small>عنوان، متن و تصویر</small>
+                </div>
+            </div>
+
+            <div class="step">
+                <span>02</span>
+                <div>
+                    <strong>بررسی مدیر</strong>
+                    <small>بررسی و تأیید محتوا</small>
+                </div>
+            </div>
+
+            <div class="step">
+                <span>03</span>
+                <div>
+                    <strong>انتشار</strong>
+                    <small>نمایش برای همه</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="editor-card">
+
+        <div class="editor-heading">
+            <div>
+                <span class="eyebrow">NEW ARTICLE</span>
+                <h2>پست جدید بساز</h2>
+                <p>فیلدهای ستاره‌دار ضروری هستند.</p>
+            </div>
+
+            <div class="editor-icon">✎</div>
+        </div>
+
+        <form id="createPostForm"
+              th:action="@{/posts}"
+              method="post"
+              enctype="multipart/form-data"
+              th:attr="data-author-id=${authorId}">
+
+            <div class="field">
+                <label for="title">عنوان پست <span>*</span></label>
+                <input id="title"
+                       name="title"
+                       type="text"
+                       maxlength="180"
+                       placeholder="مثلاً چطور برنامه‌نویسی جاوا رو شروع کنیم؟"
+                       required>
+                <small>عنوان واضح و جذاب انتخاب کن.</small>
+            </div>
+
+            <div class="field">
+                <label for="slug">شناسه‌ی متنی (Slug) <span>*</span></label>
+                <input id="slug"
+                       name="slug"
+                       type="text"
+                       maxlength="200"
+                       placeholder="how-to-learn-java"
+                       required>
+                <small>به‌صورت خودکار از عنوان ساخته می‌شه؛ می‌تونی ویرایشش کنی.</small>
+            </div>
+
+            <div class="field">
+                <label for="excerpt">خلاصه‌ی پست <span>*</span></label>
+                <textarea id="excerpt"
+                          name="excerpt"
+                          rows="3"
+                          maxlength="400"
+                          placeholder="در چند جمله توضیح بده مقاله درباره‌ی چیه..."
+                          required></textarea>
+                <div class="field-footer">
+                    <small>این خلاصه در کارت‌های صفحه‌ی اصلی نمایش داده می‌شه.</small>
+                    <small id="excerptCount">۰ / ۴۰۰</small>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="content">متن کامل پست <span>*</span></label>
+                <textarea id="content"
+                          name="content"
+                          rows="10"
+                          maxlength="30000"
+                          placeholder="مقاله‌ات رو اینجا بنویس..."
+                          required></textarea>
+                <div class="field-footer">
+                    <small>متن رو مرتب و خوانا بنویس.</small>
+                    <small id="contentCount">۰ / ۳۰۰۰۰</small>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="categoryId">دسته‌بندی <span>*</span></label>
+                <select id="categoryId" name="categoryId" required>
+                    <option value="">یک دسته‌بندی انتخاب کن</option>
+                    <option th:each="category : ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}">
+                        دسته‌بندی
+                    </option>
+                </select>
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label>تگ‌های مرتبط</label>
+                    <span class="optional-label">اختیاری</span>
+                </div>
+
+                <div class="tag-options" th:if="${!#lists.isEmpty(tags)}">
+                    <label class="tag-option" th:each="tag : ${tags}">
+                        <input type="checkbox"
+                               name="tagIds"
+                               th:value="${tag.id}">
+                        <span th:text="${tag.name}">Java</span>
+                    </label>
+                </div>
+
+                <p class="empty-tags" th:if="${#lists.isEmpty(tags)}">
+                    هنوز تگی ساخته نشده؛ می‌تونی بدون تگ ادامه بدی.
+                </p>
+            </div>
+
+            <div class="field">
+                <label>تصویر پست <span class="optional-label">اختیاری</span></label>
+
+                <label class="upload-area" for="imageFile" id="uploadArea">
+                    <input id="imageFile"
+                           name="imageFile"
+                           type="file"
+                           accept="image/png,image/jpeg,image/webp,image/gif">
+
+                    <span class="upload-icon">↥</span>
+                    <strong id="uploadTitle">تصویرت رو انتخاب کن</strong>
+                    <small id="uploadDescription">PNG، JPG، WEBP یا GIF</small>
+                </label>
+
+                <img id="imagePreview"
+                     class="image-preview"
+                     alt="پیش‌نمایش تصویر انتخاب‌شده"
+                     hidden>
+            </div>
+
+            <div class="submission-note">
+                <span>✦</span>
+                <p>
+                    با ثبت پست، مقاله در وضعیت پیش‌نویس ذخیره می‌شه.
+                    بعد از بررسی و انتشار توسط مدیر، برای همه قابل مشاهده خواهد بود.
+                </p>
+            </div>
+
+            <button class="submit-button" id="submitButton" type="submit">
+                <span id="submitLabel">ثبت پست برای بررسی</span>
+                <span aria-hidden="true">↗</span>
+            </button>
+
+            <div id="resultMessage"
+                 class="result-message"
+                 role="status"
+                 aria-live="polite"
+                 hidden></div>
+
+        </form>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <a class="brand" th:href="@{/home}">
+        <span class="brand-symbol">✦</span>
+        NEXORA<span class="brand-dot">.</span>
+    </a>
+    <span>ایده‌هات ارزش به اشتراک گذاشتن دارن.</span>
+</footer>
+
+</body>
+</html>
