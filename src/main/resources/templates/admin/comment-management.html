@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#071329">
+
+    <title>مدیریت کامنت‌ها | NEXORA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/comment-management.css}">
+    <script th:src="@{/js/comment-management.js}" defer></script>
+</head>
+<body>
+
+<div class="ambient ambient-one"></div>
+<div class="ambient ambient-two"></div>
+<div class="ambient ambient-three"></div>
+
+<header class="topbar">
+    <a class="brand" th:href="@{/home}">
+        <span class="brand-symbol">✦</span>
+        NEXORA<span class="brand-dot">.</span>
+    </a>
+
+    <a class="back-btn" th:href="@{/admin/dashboard}">
+        <span>←</span>
+        بازگشت به داشبورد
+    </a>
+</header>
+
+<main class="page-shell">
+
+    <section class="hero">
+        <div class="hero-copy">
+            <div class="eyebrow">
+                <span class="live-dot"></span>
+                COMMUNITY CONTROL CENTER
+            </div>
+
+            <h1>صدای کاربران،<br><span>تحت مدیریت تو.</span></h1>
+
+            <p>
+                کامنت‌ها رو بررسی کن، گفت‌وگوهای مفید رو تأیید کن
+                و فضای NEXORA رو سالم و حرفه‌ای نگه دار.
+            </p>
+        </div>
+
+        <div class="hero-art" aria-hidden="true">
+            <div class="orbit orbit-a"></div>
+            <div class="orbit orbit-b"></div>
+            <div class="orbit orbit-c"></div>
+            <div class="hero-core">✦</div>
+            <span class="floating-symbol symbol-a">“</span>
+            <span class="floating-symbol symbol-b">✧</span>
+            <span class="floating-symbol symbol-c">↗</span>
+        </div>
+    </section>
+
+    <section class="stats-grid">
+        <article class="stat-card">
+            <div class="stat-top">
+                <span>همهٔ کامنت‌ها</span>
+                <span class="stat-icon blue">▤</span>
+            </div>
+            <strong id="totalCount">—</strong>
+            <span class="stat-foot">تعداد نتایج فعلی</span>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-top">
+                <span>در انتظار بررسی</span>
+                <span class="stat-icon orange">◷</span>
+            </div>
+            <strong id="pendingCount">—</strong>
+            <span class="stat-foot">نیازمند تصمیم ادمین</span>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-top">
+                <span>تأییدشده</span>
+                <span class="stat-icon green">✓</span>
+            </div>
+            <strong id="approvedCount">—</strong>
+            <span class="stat-foot">قابل نمایش در پست‌ها</span>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-top">
+                <span>ردشده</span>
+                <span class="stat-icon red">×</span>
+            </div>
+            <strong id="rejectedCount">—</strong>
+            <span class="stat-foot">نمایش‌داده‌نشده به کاربران</span>
+        </article>
+    </section>
+
+    <section class="workspace">
+        <div class="workspace-heading">
+            <div>
+                <span class="section-kicker">MODERATION WORKSPACE</span>
+                <h2>مرکز مدیریت کامنت‌ها</h2>
+                <p>برای پیدا کردن کامنت موردنظر، جست‌وجو یا فیلتر کن.</p>
+            </div>
+
+            <button type="button" class="refresh-btn" id="refreshBtn">
+                <span>↻</span>
+                بروزرسانی
+            </button>
+        </div>
+
+        <div class="toolbar">
+            <label class="search-box">
+                <span class="search-symbol">⌕</span>
+                <input id="searchInput" type="search"
+                       placeholder="جست‌وجو در متن، نام کاربر یا عنوان پست..."
+                       autocomplete="off">
+                <kbd>SEARCH</kbd>
+            </label>
+
+            <label class="filter-box">
+                <span>وضعیت</span>
+                <select id="statusFilter">
+                    <option value="all">همهٔ وضعیت‌ها</option>
+                    <option value="PENDING">در انتظار تأیید</option>
+                    <option value="APPROVED">تأییدشده</option>
+                    <option value="REJECTED">ردشده</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="results-bar">
+            <span>فهرست کامنت‌ها</span>
+            <span id="resultCount">در حال دریافت...</span>
+        </div>
+
+        <div class="state-box" id="loadingState">
+            <span class="loader"></span>
+            <strong>در حال دریافت کامنت‌ها...</strong>
+            <p>یک لحظه صبر کن.</p>
+        </div>
+
+        <div class="state-box error-state" id="errorState" hidden>
+            <span class="state-symbol">!</span>
+            <strong>دریافت اطلاعات ناموفق بود</strong>
+            <p id="errorMessage">ارتباط با سرور برقرار نشد.</p>
+            <button type="button" class="primary-btn" id="retryBtn">
+                تلاش دوباره
+            </button>
+        </div>
+
+        <div class="state-box" id="emptyState" hidden>
+            <span class="state-symbol">⌕</span>
+            <strong>کامنتی پیدا نشد</strong>
+            <p>فیلترها یا عبارت جست‌وجو رو تغییر بده.</p>
+        </div>
+
+        <div class="comments-list" id="commentsList" hidden></div>
+
+        <footer class="panel-footer">
+            <span><i class="footer-dot"></i> NEXORA Moderation</span>
+            <span>هر تصمیم، فقط یک کلیک فاصله دارد.</span>
+        </footer>
+    </section>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>

@@ -34,7 +34,8 @@ public class Comment {
     @NotBlank(message = "Content can not be null")
     private String content;
 
-    private Boolean approved = false;
+    @Enumerated(EnumType.STRING)
+    private CommentStatus status = CommentStatus.PENDING;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -44,6 +45,7 @@ public class Comment {
     @ManyToOne
     private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private ApplicationUser user;
 }
+

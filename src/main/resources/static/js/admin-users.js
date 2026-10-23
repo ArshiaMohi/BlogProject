@@ -228,6 +228,12 @@ async function loadUsers() {
         }
 
         users = data.map(normalizeUser);
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get("search");
+
+        if (username) {
+            elements.search.value = username;
+        }
         updateStats();
         renderUsers();
     } catch (error) {

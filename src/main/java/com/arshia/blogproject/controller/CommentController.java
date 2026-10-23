@@ -1,9 +1,9 @@
-
 package com.arshia.blogproject.controller;
 
 import com.arshia.blogproject.dto.comment.CommentCreateDto;
 import com.arshia.blogproject.dto.comment.CommentResponseDto;
 import com.arshia.blogproject.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,37 +19,18 @@ public class CommentController {
 
     @PostMapping
     public CommentResponseDto save(
-            @RequestBody CommentCreateDto commentCreateDto,
-            Authentication authentication) {
-
-        return commentService.save(
-                commentCreateDto,
-                authentication.getName()
-        );
-    }
-
-    @GetMapping
-    public List<CommentResponseDto> findAll() {
-        return commentService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public CommentResponseDto findById(
-            @PathVariable int id) {
-
-        return commentService.findById(id);
+            @Valid @RequestBody CommentCreateDto dto,
+            Authentication authentication
+    ) {
+        return commentService.save(dto, authentication.getName());
     }
 
     @GetMapping("/post/{postId}")
     public List<CommentResponseDto> findApprovedByPostId(
-            @PathVariable int postId) {
-
+            @PathVariable int postId
+    ) {
         return commentService.findApprovedByPostId(postId);
     }
-
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) {
-        commentService.deleteById(id);
-    }
 }
+
 

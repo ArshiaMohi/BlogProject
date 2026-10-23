@@ -1,4 +1,3 @@
-
 package com.arshia.blogproject.config;
 
 import com.arshia.blogproject.service.CustomUserDetailsService;
@@ -22,12 +21,41 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users", "/users/*").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/users/*").hasRole("ADMIN")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/", "/register", "/login").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users")
+                        .permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/users",
+                                "/users/*"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/users/*"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/comments/post/**"
+                        ).permitAll()
+
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/",
+                                "/register",
+                                "/login"
+                        ).permitAll()
+
+                        .requestMatchers(
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
+                        ).permitAll()
+
                         .anyRequest().authenticated()
                 )
 
@@ -38,9 +66,8 @@ public class SecurityConfig {
                         .failureUrl("/login?error")
                         .permitAll()
                 )
-                .logout(logout -> logout
-                        .permitAll()
-                );
+
+                .logout(logout -> logout.permitAll());
 
         return http.build();
     }
@@ -53,8 +80,8 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider(
             CustomUserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
-
+            PasswordEncoder passwordEncoder
+    ) {
         DaoAuthenticationProvider provider =
                 new DaoAuthenticationProvider(userDetailsService);
 
@@ -63,3 +90,4 @@ public class SecurityConfig {
         return provider;
     }
 }
+

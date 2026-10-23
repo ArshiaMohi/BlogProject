@@ -3,14 +3,14 @@ package com.arshia.blogproject.controller;
 import com.arshia.blogproject.dto.applicationUser.ApplicationUserResponseDto;
 import com.arshia.blogproject.dto.comment.CommentResponseDto;
 import com.arshia.blogproject.dto.post.PostResponseDto;
+import com.arshia.blogproject.entity.CommentStatus;
 import com.arshia.blogproject.service.ApplicationUserService;
 import com.arshia.blogproject.service.CommentService;
 import com.arshia.blogproject.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -26,10 +26,17 @@ public class AdminController {
         return applicationUserService.active(id);
     }
 
-
     @PutMapping("/user/deactivate/{id}")
     public ApplicationUserResponseDto deactivate(@PathVariable int id) {
         return applicationUserService.deactivate(id);
+    }
+
+    @GetMapping("/comments/search")
+    public List<CommentResponseDto> searchComments(
+            @RequestParam(required = false) CommentStatus status,
+            @RequestParam(required = false) String q
+    ) {
+        return commentService.search(status, q);
     }
 
     @PutMapping("/comment/approve/{id}")
@@ -37,9 +44,17 @@ public class AdminController {
         return commentService.approve(id);
     }
 
-    @PutMapping("/comment/unapprove/{id}")
-    public CommentResponseDto unapprove(@PathVariable int id) {
-        return commentService.unapprove(id);
+    @PutMapping({
+            "/comment/reject/{id}",
+            "/comment/unapprove/{id}"
+    })
+    public CommentResponseDto reject(@PathVariable int id) {
+        return commentService.reject(id);
+    }
+
+    @DeleteMapping("/comment/{id}")
+    public void deleteComment(@PathVariable int id) {
+        commentService.deleteById(id);
     }
 
     @PutMapping("/post/publish/{id}")
@@ -52,3 +67,4 @@ public class AdminController {
         return postService.unpublish(id);
     }
 }
+

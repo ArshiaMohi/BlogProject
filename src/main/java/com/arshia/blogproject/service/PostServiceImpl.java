@@ -24,26 +24,31 @@ public class PostServiceImpl implements PostService {
     private final TagRepository tagRepository;
     private final CommentRepository commentRepository;
 
+
     private CommentResponseDto convertCommentToResponse(Comment comment) {
 
         CommentResponseDto dto = new CommentResponseDto();
 
         dto.setId(comment.getId());
         dto.setName(comment.getName());
-        dto.setEmail(comment.getEmail());
+        dto.setContent(comment.getContent());
+        dto.setStatus(comment.getStatus());
+
+        if (comment.getPost() != null) {
+            dto.setPostId(comment.getPost().getId());
+            dto.setPostTitle(comment.getPost().getTitle());
+        }
 
         if (comment.getUser() != null) {
             dto.setUserId(comment.getUser().getId());
             dto.setUsername(comment.getUser().getUsername());
         }
-        dto.setContent(comment.getContent());
-        dto.setApproved(comment.getApproved());
-        dto.setPostId(comment.getPost().getId());
-        dto.setPostTitle(comment.getPost().getTitle());
+
         dto.setCreatedAt(comment.getCreatedAt());
 
         return dto;
     }
+
 
     private Post convertCreateToPost(PostCreateDto postCreateDto) {
 
@@ -95,12 +100,19 @@ public class PostServiceImpl implements PostService {
         dto.setCategoryId(post.getCategory().getId());
         dto.setCategoryName(post.getCategory().getName());
 
+
         List<CommentResponseDto> comments =
-                commentRepository.findByPost_IdAndApprovedTrue(post.getId())
+                commentRepository
+                        .findByPost_IdAndStatus(
+                                post.getId(),
+                                CommentStatus.APPROVED
+                        )
                         .stream()
                         .map(this::convertCommentToResponse)
                         .toList();
+
         dto.setComments(comments);
+
 
         dto.setTagIds(
                 post.getTags()

@@ -92,17 +92,17 @@ public class PageController {
         return "create-post";
     }
 
+    @GetMapping("/admin/dashboard")
+    public String dashboard() {
+        return "admin/dashboard";
+    }
+
     @GetMapping("/admin/content")
     public String contentManagement(Model model) {
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("tags", tagService.findAll());
 
         return "admin/content-management";
-    }
-
-    @GetMapping("/admin/dashboard")
-    public String dashboard() {
-        return "admin/dashboard";
     }
 
     @GetMapping("/admin/posts")
@@ -115,6 +115,13 @@ public class PageController {
     public String userManagement() {
         return "admin/user-management";
     }
+
+
+    @GetMapping("/admin/comments")
+    public String manageComments() {
+        return "admin/comment-management";
+    }
+
 }
 
 

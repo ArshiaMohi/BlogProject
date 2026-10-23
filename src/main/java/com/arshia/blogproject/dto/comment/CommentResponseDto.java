@@ -1,5 +1,6 @@
 package com.arshia.blogproject.dto.comment;
 
+import com.arshia.blogproject.entity.CommentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,15 +18,13 @@ public class CommentResponseDto {
 
     private String name;
 
-    private String email;
+    private String content;
+
+    private CommentStatus status;
 
     private int userId;
 
     private String username;
-
-    private String content;
-
-    private Boolean approved;
 
     private int postId;
 
@@ -33,4 +32,5 @@ public class CommentResponseDto {
 
     private LocalDateTime createdAt;
 }
+
 
