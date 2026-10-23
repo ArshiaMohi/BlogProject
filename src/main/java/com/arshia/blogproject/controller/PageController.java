@@ -110,6 +110,11 @@ public class PageController {
         model.addAttribute("posts", postService.findAll());
         return "admin/post-management";
     }
+
+    @GetMapping("/admin/users")
+    public String userManagement() {
+        return "admin/user-management";
+    }
 }
 
 

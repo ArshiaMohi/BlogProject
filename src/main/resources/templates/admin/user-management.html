@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدیریت کاربران | NEXORA</title>
+    <link rel="stylesheet" th:href="@{/css/admin-users.css}">
+    <script th:src="@{/js/admin-users.js}" defer></script>
+</head>
+<body>
+<div class="page-glow glow-one"></div>
+<div class="page-glow glow-two"></div>
+
+<main class="dashboard-shell">
+
+    <header class="topbar">
+        <a th:href="@{/admin/dashboard}" class="brand">
+            <span class="brand-icon">N</span>
+            <span>NEXORA <small>ADMIN PANEL</small></span>
+        </a>
+
+        <div class="topbar-right">
+            <span class="live-indicator"></span>
+            <span class="topbar-label">مدیریت سیستم</span>
+            <div class="admin-avatar">A</div>
+        </div>
+    </header>
+
+    <a th:href="@{/admin/dashboard}" class="back-dashboard-btn">
+        <span class="back-arrow">←</span>
+        <span>بازگشت به داشبورد</span>
+    </a>
+
+    <section class="hero">
+        <div class="hero-copy">
+            <span class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                USER MANAGEMENT
+            </span>
+
+            <h1>مدیریت <span>کاربران</span></h1>
+
+            <p>
+                اعضای وبلاگ را مدیریت کن، وضعیت حساب‌ها را تغییر بده
+                و کنترل کاملی روی دسترسی کاربران داشته باش.
+            </p>
+
+            <div class="hero-meta">
+                <span class="meta-icon">✦</span>
+                <span>مدیریت هوشمند اعضای NEXORA</span>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="orbit orbit-outer"></div>
+            <div class="orbit orbit-inner"></div>
+            <div class="hero-user-icon">♙</div>
+            <span class="floating-user user-one">✦</span>
+            <span class="floating-user user-two">●</span>
+            <span class="floating-user user-three">✧</span>
+            <div class="hero-visual-caption">
+                <span class="caption-dot"></span>
+                کنترل دسترسی کاربران
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-grid">
+        <article class="stat-card stat-total">
+            <div class="stat-top">
+                <span class="stat-label">کل کاربران</span>
+                <span class="stat-icon icon-blue">♙</span>
+            </div>
+            <div class="stat-number" id="totalUsers">—</div>
+            <div class="stat-foot">اعضای ثبت‌شده در سیستم</div>
+            <div class="stat-decoration"></div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-top">
+                <span class="stat-label">حساب‌های فعال</span>
+                <span class="stat-icon icon-green">✓</span>
+            </div>
+            <div class="stat-number" id="activeUsers">—</div>
+            <div class="stat-foot">کاربران فعال سیستم</div>
+            <div class="stat-decoration decoration-green"></div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-top">
+                <span class="stat-label">حساب‌های غیرفعال</span>
+                <span class="stat-icon icon-orange">Ⅱ</span>
+            </div>
+            <div class="stat-number" id="inactiveUsers">—</div>
+            <div class="stat-foot">حساب‌های غیرفعال‌شده</div>
+            <div class="stat-decoration decoration-orange"></div>
+        </article>
+
+        <article class="stat-card">
+            <div class="stat-top">
+                <span class="stat-label">مدیران</span>
+                <span class="stat-icon icon-purple">♛</span>
+            </div>
+            <div class="stat-number" id="adminUsers">—</div>
+            <div class="stat-foot">دارای نقش مدیریت</div>
+            <div class="stat-decoration decoration-purple"></div>
+        </article>
+    </section>
+
+    <section class="users-panel">
+        <div class="panel-heading">
+            <div>
+                <span class="section-kicker">MEMBERS DIRECTORY</span>
+                <h2>فهرست اعضا</h2>
+                <p>اطلاعات و وضعیت حساب کاربران را مدیریت کن.</p>
+            </div>
+
+            <button type="button" class="refresh-btn" id="refreshBtn">
+                <span>↻</span>
+                بروزرسانی
+            </button>
+        </div>
+
+        <div class="toolbar">
+            <label class="search-box">
+                <span class="search-icon">⌕</span>
+                <input id="searchInput" type="search"
+                       placeholder="جست‌وجو با نام، نام کاربری یا ایمیل..."
+                       autocomplete="off">
+                <kbd>⌕</kbd>
+            </label>
+
+            <div class="filter-group">
+                <select id="roleFilter" aria-label="فیلتر نقش">
+                    <option value="all">همه نقش‌ها</option>
+                    <option value="ROLE_USER">کاربر عادی</option>
+                    <option value="ROLE_ADMIN">مدیر</option>
+                </select>
+
+                <select id="statusFilter" aria-label="فیلتر وضعیت">
+                    <option value="all">همه وضعیت‌ها</option>
+                    <option value="active">فعال</option>
+                    <option value="inactive">غیرفعال</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="results-bar">
+            <span>فهرست کاربران</span>
+            <span class="result-count" id="resultCount">در حال دریافت...</span>
+        </div>
+
+        <div id="loadingState" class="state-box">
+            <span class="loader"></span>
+            <p>در حال دریافت اطلاعات کاربران...</p>
+        </div>
+
+        <div id="errorState" class="state-box error-state" hidden>
+            <div class="state-symbol">!</div>
+            <h3>دریافت اطلاعات ناموفق بود</h3>
+            <p id="errorMessage">ارتباط با سرور برقرار نشد.</p>
+            <button type="button" class="primary-btn" id="retryBtn">
+                تلاش دوباره
+            </button>
+        </div>
+
+        <div id="emptyState" class="state-box" hidden>
+            <div class="state-symbol">⌕</div>
+            <h3>کاربری پیدا نشد!</h3>
+            <p>عبارت جست‌وجو یا فیلترها را تغییر بده.</p>
+        </div>
+
+        <div class="table-wrap" id="tableWrap" hidden>
+            <table>
+                <thead>
+                <tr>
+                    <th>کاربر</th>
+                    <th>نام کاربری</th>
+                    <th>نقش</th>
+                    <th>وضعیت حساب</th>
+                    <th>عملیات</th>
+                </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="panel-footer">
+            <span class="footer-status">
+                <span class="footer-dot"></span>
+                مدیریت کاربران
+            </span>
+            <span>اطلاعات از پایگاه داده دریافت می‌شود</span>
+        </div>
+    </section>
+
+    <footer class="page-footer">
+        <span>© NEXORA — Admin Workspace</span>
+        <span>طراحی‌شده برای مدیریت ساده‌تر</span>
+    </footer>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
