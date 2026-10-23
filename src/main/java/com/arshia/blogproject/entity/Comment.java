@@ -43,4 +43,7 @@ public class Comment {
 
     @ManyToOne
     private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ApplicationUser user;
 }

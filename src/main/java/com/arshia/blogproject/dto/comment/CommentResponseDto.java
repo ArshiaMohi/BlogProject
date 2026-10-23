@@ -17,12 +17,20 @@ public class CommentResponseDto {
 
     private String name;
 
+    private String email;
+
+    private int userId;
+
+    private String username;
+
     private String content;
 
     private Boolean approved;
 
     private int postId;
+
     private String postTitle;
 
     private LocalDateTime createdAt;
 }
+

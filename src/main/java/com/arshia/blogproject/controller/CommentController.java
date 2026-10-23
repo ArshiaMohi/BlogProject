@@ -1,9 +1,11 @@
+
 package com.arshia.blogproject.controller;
 
 import com.arshia.blogproject.dto.comment.CommentCreateDto;
 import com.arshia.blogproject.dto.comment.CommentResponseDto;
 import com.arshia.blogproject.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,14 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public CommentResponseDto save(@RequestBody CommentCreateDto commentCreateDto) {
-        return commentService.save(commentCreateDto);
+    public CommentResponseDto save(
+            @RequestBody CommentCreateDto commentCreateDto,
+            Authentication authentication) {
+
+        return commentService.save(
+                commentCreateDto,
+                authentication.getName()
+        );
     }
 
     @GetMapping
@@ -26,12 +34,16 @@ public class CommentController {
     }
 
     @GetMapping("/{id}")
-    public CommentResponseDto findById(@PathVariable int id) {
+    public CommentResponseDto findById(
+            @PathVariable int id) {
+
         return commentService.findById(id);
     }
 
     @GetMapping("/post/{postId}")
-    public List<CommentResponseDto> findApprovedByPostId(@PathVariable int postId) {
+    public List<CommentResponseDto> findApprovedByPostId(
+            @PathVariable int postId) {
+
         return commentService.findApprovedByPostId(postId);
     }
 
@@ -40,3 +52,4 @@ public class CommentController {
         commentService.deleteById(id);
     }
 }
+

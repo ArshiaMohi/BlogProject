@@ -30,6 +30,12 @@ public class PostServiceImpl implements PostService {
 
         dto.setId(comment.getId());
         dto.setName(comment.getName());
+        dto.setEmail(comment.getEmail());
+
+        if (comment.getUser() != null) {
+            dto.setUserId(comment.getUser().getId());
+            dto.setUsername(comment.getUser().getUsername());
+        }
         dto.setContent(comment.getContent());
         dto.setApproved(comment.getApproved());
         dto.setPostId(comment.getPost().getId());

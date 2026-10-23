@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface CommentService {
 
-    CommentResponseDto save(CommentCreateDto commentCreateDto);
+    CommentResponseDto save(
+            CommentCreateDto commentCreateDto,
+            String username
+    );
 
     CommentResponseDto findById(int id);
 
