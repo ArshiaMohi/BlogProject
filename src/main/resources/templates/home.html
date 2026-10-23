@@ -218,6 +218,13 @@
                 <div class="post-card-body">
                     <div class="post-meta">
                         <span class="meta-category" th:text="${post.categoryName}">موضوع</span>
+                        <span th:each="tagId, iter : ${post.tagIds}">
+                            <a class="meta-category"
+                               th:href="@{/home(tagId=${tagId}) + '#latest'}"
+                               th:text="'#' + ${post.tagNames[iter.index]}">
+                                #Java
+                            </a>
+                        </span>
                         <span class="meta-separator"></span>
                         <span th:text="${post.publishedAt != null ? #temporals.format(post.publishedAt, 'yyyy/MM/dd') : 'نوشتهٔ تازه'}">تاریخ</span>
                     </div>
@@ -253,8 +260,6 @@
         </div>
         <div class="tag-cloud">
             <a th:each="tag : ${tags}"
-               href="#latest"
-               th:attr="data-search-tag=${tag.name}"
                class="tag-chip">
                 <span>#</span><span th:text="${tag.name}">تگ</span>
             </a>

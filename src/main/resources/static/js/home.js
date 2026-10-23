@@ -267,12 +267,5 @@
             }
         });
     });
-    document.querySelectorAll('[data-search-tag]').forEach(tag => {
-        tag.addEventListener('click', () => {
-            if (!searchForm || !searchInput) return;
-            searchInput.value = tag.dataset.searchTag || '';
-            searchForm.requestSubmit();
-        });
-    });
 
 })();

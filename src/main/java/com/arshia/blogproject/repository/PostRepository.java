@@ -18,4 +18,7 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findByTitleContainingIgnoreCaseAndStatus(String title, Status status);
 
     Optional<Post> findByIdAndStatus(int id, Status status);
+
+    Page<Post> findDistinctByTags_IdAndStatus(
+            int tagId, Status status, Pageable pageable);
 }

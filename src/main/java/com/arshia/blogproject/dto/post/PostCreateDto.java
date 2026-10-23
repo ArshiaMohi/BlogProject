@@ -1,6 +1,5 @@
 package com.arshia.blogproject.dto.post;
 
-import com.arshia.blogproject.entity.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

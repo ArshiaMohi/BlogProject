@@ -24,6 +24,9 @@ public interface PostService {
 
     List<PostResponseDto> searchPublishedByTitle(String title);
 
+    Page<PostResponseDto> findPublishedByTagId(
+            int tagId, Pageable pageable);
+
     PostResponseDto publish(int id);
 
     PostResponseDto unpublish(int id);

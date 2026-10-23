@@ -19,35 +19,15 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(HttpMethod.POST, "/users")
                         .permitAll()
 
                         .requestMatchers(
                                 HttpMethod.GET,
-                                "/users",
-                                "/users/*"
-                        ).hasRole("ADMIN")
-
-                        .requestMatchers(
-                                HttpMethod.DELETE,
-                                "/users/*"
-                        ).hasRole("ADMIN")
-
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/comments/post/**"
-                        ).permitAll()
-
-                        .requestMatchers("/admin/**")
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(
-                                HttpMethod.GET,
-                                "/",
-                                "/register",
-                                "/login"
+                                "/login",
+                                "/register"
                         ).permitAll()
 
                         .requestMatchers(
@@ -55,6 +35,63 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**"
                         ).permitAll()
+
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/users",
+                                "/users/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/users/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.POST, "/posts")
+                        .authenticated()
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/posts/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/posts/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/categories/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/categories/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/categories/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/tags/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/tags/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/tags/**"
+                        ).hasRole("ADMIN")
 
                         .anyRequest().authenticated()
                 )

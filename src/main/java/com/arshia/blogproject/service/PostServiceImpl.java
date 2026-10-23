@@ -201,6 +201,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Page<PostResponseDto> findPublishedByTagId(
+            int tagId, Pageable pageable) {
+        return postRepository
+                .findDistinctByTags_IdAndStatus(
+                        tagId, Status.PUBLISHED, pageable)
+                .map(this::convertPostToResponse);
+    }
+
+    @Override
     public PostResponseDto publish(int id) {
         Post post = postRepository.findById(id)
                 .orElseThrow();

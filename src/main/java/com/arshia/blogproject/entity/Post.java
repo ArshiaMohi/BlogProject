@@ -43,7 +43,7 @@ public class Post {
     private String imageContentType;
 
     private String imageName;
-    
+
     @Enumerated(EnumType.STRING)
     private Status status;
 

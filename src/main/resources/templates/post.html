@@ -54,6 +54,13 @@
 
             <span class="reading-badge">NEXORA · ARTICLE</span>
         </div>
+        <div class="article-meta"
+             th:if="${post.tagIds != null and !post.tagIds.isEmpty()}">
+            <a th:each="tagId, iter : ${post.tagIds}"
+               th:text="'#' + ${post.tagNames[iter.index]}">
+                #Java
+            </a>
+        </div>
 
         <h1 class="article-title" th:text="${post.title}">
             عنوان مقاله
